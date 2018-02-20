@@ -24,18 +24,11 @@ angular.module('app')
             // expecting objs to have name, description, and image url for each event
             // need to update recommendsMod.recommendsArr to be the array of objs you get back
             .then((response) => { 
-              console.log('recommends data is:', response.data);
               this.recommendsArr = response.data.map((recommend) => {
                 return {image: recommend.img_url, name: recommend.name, description: recommend.description, link: $sce.trustAsUrl(recommend.event_link)};
               });
              })
-            .catch((err) => { console.log('sorry, got an error trying to get the recommendations :/', err); });
-
-          // TODO: delete following two lines:
-          // this.recommendsArr = dummyData.slice(0, 3);
-          console.log(recommendsMod.selectedDate);
-        } else {
-          console.log('looks like your selected date is not a date :/');
+            .catch((err) => { console.log('sorry, got an error trying to get the recommendations :/'); });
         }
       });
     },

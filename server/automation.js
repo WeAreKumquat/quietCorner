@@ -60,5 +60,3 @@ console.log('checking safety', safetyCheck.running);
 console.log('deleted old events', deletePastEvents.running);
 console.log('addSongKickEvent status', addSongkickEvents.running);
 console.log('addYelpEvent status', addYelpEvents.running);
-
-console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');

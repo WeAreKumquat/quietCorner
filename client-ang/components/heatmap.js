@@ -28,10 +28,6 @@ angular.module('app')
           // TODO: uncomment following lines, update endpoint, and use response data correctly in `then` statement
           $http.post('/heatmap', { date: heatmap.selectedDate })
             .then((response) => {
-              // expect response.data to be array of objs with lat, long, and num_people properties
-              console.log(response.data);
-
-              // 
               heatmap.heatmapLayer.setMap(null);
               heatmap.heatCoords = response.data.map((coordinates) => {
                 return {location: new google.maps.LatLng(coordinates.lat, coordinates.long), weight: coordinates.num_people}
@@ -43,9 +39,6 @@ angular.module('app')
     
             })
             .catch((err) => { console.log('sorry, got an error trying to get the heat map :/'); });
-
-          // TODO: delete following line before production:
-          console.log('selected date is: ', heatmap.selectedDate, '(called in heatmap.js)');
         } else {
           console.log('Hmm, looks like the date is not actually a date. Sorry about that! ');
         }

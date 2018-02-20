@@ -1,6 +1,5 @@
 require('dotenv').config();
 const request = require('request');
-// const converter = require('xml-js');
 const db = require('../db/index.js');
 const moment = require('moment');
 /*
@@ -14,6 +13,7 @@ database schema for reference
   description: string(many chars),
   num_people: int,
   img_url: string(255 chars)
+  event_link: string(255 chars)
 }
 */
 
@@ -35,7 +35,6 @@ const songkickFormatForDatabase = (resultArray) => {
 };
 
 const getSongkickEvents = () => {
-  // console.log(`${year}-${month}-${day}`); // ok, YYYY-MM-DD
 
   const skOptions = {
     method: 'GET',
@@ -54,7 +53,6 @@ const getSongkickEvents = () => {
   request(skOptions, (error, response, body) => {
     if (error) throw new Error(error);
     const sParsed = JSON.parse(body);
-    // console.log(sParsed);
     if (sParsed.resultsPage.results.event) {
       songkickFormatForDatabase(sParsed.resultsPage.results.event); // there's your array
     }
@@ -81,7 +79,6 @@ const yelpFormatForDatabase = (resultArray) => {
 };
 
 const getYelpEvents = () => {
-  // console.log(process.env.YELP_API_KEY); // ok
   const options = {
     method: 'GET',
     url: 'https://api.yelp.com/v3/events',
@@ -102,7 +99,6 @@ const getYelpEvents = () => {
   request(options, (error, response, body) => {
     if (error) throw new Error(error);
     const parsedBody = JSON.parse(body);
-    // console.log(parsedBody);
     if (parsedBody.events.length) {
       yelpFormatForDatabase(parsedBody.events);
     }

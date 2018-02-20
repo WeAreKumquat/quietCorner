@@ -4,8 +4,6 @@ angular.module('app')
       updateAppDate: '<',
       selectedDate: '<',
     },
-    controller() {
-      console.log('check in heatmapCont', this.updateAppDate);
-    },
+    controller() {},
     templateUrl: '/templates/heatmapContainer.html',
   });
