@@ -53,7 +53,7 @@ const getSongkickEvents = () => {
   request(skOptions, (error, response, body) => {
     if (error) throw new Error(error);
     const sParsed = JSON.parse(body);
-    if (sParsed.resultsPage.results.event) {
+    if (sParsed.resultsPage.results && sParsed.resultsPage.results.event) {
       songkickFormatForDatabase(sParsed.resultsPage.results.event); // there's your array
     }
   });
@@ -99,7 +99,7 @@ const getYelpEvents = () => {
   request(options, (error, response, body) => {
     if (error) throw new Error(error);
     const parsedBody = JSON.parse(body);
-    if (parsedBody.events.length) {
+    if (parsedBody.events && parsedBody.events.length) {
       yelpFormatForDatabase(parsedBody.events);
     }
   });
