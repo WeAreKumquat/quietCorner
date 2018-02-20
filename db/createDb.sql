@@ -1,5 +1,5 @@
--- use this file by calling:
--- mysql -u <your username> -p < createDb.sql
+-- use this file by calling (from the root directory):
+-- mysql -u <your username> -p < db/createDb.sql
 
 
 -- uncomment following line to drop nola_events database:
