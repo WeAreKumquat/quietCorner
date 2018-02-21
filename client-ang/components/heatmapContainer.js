@@ -3,6 +3,10 @@ angular.module('app')
     bindings: {
       updateAppDate: '<',
       selectedDate: '<',
+      updateAppTime: '<',
+      selectedTime: '<',
+      updateAppLocation: '<',
+      selectedLocation: '<',
     },
     controller() {},
     templateUrl: '/templates/heatmapContainer.html',

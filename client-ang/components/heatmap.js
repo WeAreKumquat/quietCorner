@@ -2,6 +2,8 @@ angular.module('app')
   .component('heatmap', {
     bindings: {
       selectedDate: '<',
+      selectedTime: '<',
+      selectedLocation: '<',
     },
     controller($scope, $http, $sce) {
       const heatmap = this;
@@ -58,12 +60,14 @@ angular.module('app')
 
       $scope.$watch('$ctrl.selectedDate', () => {
         if (Object.prototype.toString.call(heatmap.selectedDate) === '[object Date]') {
-          // TODO: uncomment following lines, update endpoint, and use response data correctly in `then` statement
           $http.post('/heatmap', { date: heatmap.selectedDate })
             .then((response) => {
               heatmap.heatmapLayer.setMap(null);
               heatmap.heatCoords = response.data.map((coordinates) => {
-                return { location: new google.maps.LatLng(coordinates.lat, coordinates.long), weight: coordinates.num_people };
+                return {
+                  location: new google.maps.LatLng(coordinates.lat, coordinates.long), 
+                  weight: coordinates.num_people,
+                };
               });
               heatmap.heatmapLayer = new google.maps.visualization.HeatmapLayer({
                 data: heatmap.heatCoords,
