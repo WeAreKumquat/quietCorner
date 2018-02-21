@@ -11,4 +11,8 @@
   <datepicker date-format="shortDate" date-set="{{$ctrl.date.toString()}}" date-min-limit="{{$ctrl.minDate.toString()}}" date-max-limit="{{$ctrl.maxDate.toString()}}">
     <input readonly ng-model="selectedDate" type="text" ng-change="$ctrl.selectDate(selectedDate)" style="height:30px; width:200px; text-align:center; font-size:20px"/>
   </datepicker>
+  <h3>Select a time!</h3>
+  <input type="time" id="time" ng-model="selectedTime" ng-change="$ctrl.getTime()" />
+  <h3>Set location!</h3>
+  <button type="submit" ng-click="$ctrl.getLocation()">Find Near Me</button>
 </div>

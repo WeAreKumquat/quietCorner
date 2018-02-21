@@ -29,13 +29,12 @@ const songkickFormatForDatabase = (resultArray) => {
       event_link: event.uri,
     };
     db.addEvent(formattedEvent)
-      .then((save) => {console.log('saved songkick data to db')})
-      .catch((err) => {console.log('error adding songkick to db')});
+      .then(() => { console.log('saved songkick data to db'); })
+      .catch((err) => { console.log(`error adding songkick to db: ${err}`); });
   });
 };
 
 const getSongkickEvents = () => {
-
   const skOptions = {
     method: 'GET',
     url: 'http://api.songkick.com/api/3.0/events.json',
@@ -49,11 +48,10 @@ const getSongkickEvents = () => {
       'Cache-Control': 'no-cache',
     },
   };
-
   request(skOptions, (error, response, body) => {
     if (error) throw new Error(error);
     const sParsed = JSON.parse(body);
-    if (sParsed.resultsPage.results.event) {
+    if (sParsed.resultsPage.results && sParsed.resultsPage.results.event) {
       songkickFormatForDatabase(sParsed.resultsPage.results.event); // there's your array
     }
   });
@@ -73,8 +71,8 @@ const yelpFormatForDatabase = (resultArray) => {
       event_link: eventObj.event_site_url,
     };
     db.addEvent(formattedObj)
-      .then((save) => {console.log('saved yelp data to db')})
-      .catch((err) => {console.log('error adding yelp to db')});;
+      .then(() => { console.log('saved yelp data to db'); })
+      .catch((err) => { console.log(`error adding songkick to db: ${err}`); });
   });
 };
 
@@ -95,11 +93,10 @@ const getYelpEvents = () => {
         Authorization: `Bearer ${process.env.YELP_API_KEY}`,
       },
   };
-
   request(options, (error, response, body) => {
     if (error) throw new Error(error);
     const parsedBody = JSON.parse(body);
-    if (parsedBody.events.length) {
+    if (parsedBody.events && parsedBody.events.length) {
       yelpFormatForDatabase(parsedBody.events);
     }
   });

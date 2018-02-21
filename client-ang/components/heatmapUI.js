@@ -2,6 +2,8 @@ angular.module('app')
   .component('heatmapUi', {
     bindings: {
       updateAppDate: '<',
+      updateAppTime: '<',
+      updateAppLocation: '<',
     },
     controller() {
       const heatUiMod = this;
@@ -18,6 +20,19 @@ angular.module('app')
         const selectedDate = new Date(newDate);
         // update app's selectedDate:
         this.updateAppDate(selectedDate);
+      };
+
+      this.getLocation = () => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((data) => {
+            console.dir(data);
+            heatUiMod.updateAppLocation(data.coords.latitude, data.coords.longitude);
+          });
+        }
+      };
+
+      this.getTime = () => {
+        heatUiMod.updateAppTime();
       };
     },
     templateUrl: '/templates/heatmapUI.html',
