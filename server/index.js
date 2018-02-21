@@ -59,6 +59,16 @@ app.post('/recommend', (req, res) => {
 
 // // **********************************************************
 
+app.get('/places', (req, res) => {
+  const { coordinates } = req.query;
+  helpers.getGooglePlacesData(coordinates, (error, placeData) => {
+    if (error) {
+      throw new Error(error);
+    } else {
+      res.send(placeData);
+    }
+  });
+});
 
 // listen to PORT, either environment var or 3000
 app.listen(PORT, () => {

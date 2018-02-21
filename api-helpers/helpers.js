@@ -2,6 +2,7 @@ require('dotenv').config();
 const request = require('request');
 const db = require('../db/index.js');
 const moment = require('moment');
+const busyHours = require('busy-hours');
 /*
 database schema for reference
 {
@@ -102,5 +103,49 @@ const getYelpEvents = () => {
   });
 };
 
+const getBusyHours = async (places, callback) => {
+  const placeData = [];
+  await places.forEach((place) => {
+    busyHours(place.place_id, process.env.GOOGLE_API_KEY)
+      .then((data) => {
+        const placeInfo = {
+          name: place.name,
+          address: place.vicinity,
+          coordinates: place.geometry.location,
+          popularity: data,
+        };
+        placeData.push(placeInfo);
+      })
+      .catch((error) => {
+        callback(error, null);
+      });
+  });
+  callback(null, placeData);
+};
+
+const getGooglePlacesData = (coordinates, callback) => {
+  const options = {
+    method: 'GET',
+    url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
+    qs: {
+      key: process.env.GOOGLE_API_KEY,
+      location: coordinates,
+      radius: 805, // about half a mile
+      opennow: true,
+    },
+  };
+  request(options, (error, response, body) => {
+    if (error) {
+      callback(error, null);
+    }
+    const data = JSON.parse(body);
+    if (data && data.results.length) {
+      getBusyHours(data.results, callback);
+    }
+  });
+};
+
 module.exports.getYelpEvents = getYelpEvents;
 module.exports.getSongkickEvents = getSongkickEvents;
+module.exports.getGooglePlacesData = getGooglePlacesData;
+
