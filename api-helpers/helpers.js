@@ -4,7 +4,11 @@ const db = require('../db/index.js');
 const moment = require('moment');
 const busyHours = require('busy-hours');
 const googleMapsClient = require('@google/maps').createClient({
+<<<<<<< HEAD
   key: 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA',
+=======
+  key: 'AIzaSyAZwSJf0AQnj2WgdYw9DOYICyjO5jryn7s',
+>>>>>>> 51b482724c8d742b624287bbc05ce7cfcb2f3f8f
 });
 /*
 database schema for reference
@@ -81,6 +85,23 @@ const yelpFormatForDatabase = (resultArray) => {
   });
 };
 
+const getAddressLocation = (loc, callback) => {
+  const options = {
+    method: 'GET',
+    url: 'https://maps.googleapis.com/maps/api/geocode/json',
+    qs:
+      {
+        address: loc,
+        key: 'AIzaSyAZwSJf0AQnj2WgdYw9DOYICyjO5jryn7s',
+      },
+  };
+
+  request(options, (error, response, body) => {
+    if (error) throw new Error(error);
+    callback(body);
+  });
+};
+
 const getYelpEvents = () => {
   const options = {
     method: 'GET',
@@ -106,9 +127,13 @@ const getYelpEvents = () => {
     }
   });
 };
-
+// AIzaSyCr1U83yUEeHy5Dd6jymXzrwNXDafDSDmg
 const getBusyHours = async (place, callback) => {
+<<<<<<< HEAD
   await busyHours(place.place_id, 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA')
+=======
+  await busyHours(place.place_id, 'AIzaSyAZwSJf0AQnj2WgdYw9DOYICyjO5jryn7s')
+>>>>>>> 51b482724c8d742b624287bbc05ce7cfcb2f3f8f
     .then((data) => {
       const placeInfo = {
         name: place.name,
@@ -164,4 +189,4 @@ module.exports.getSongkickEvents = getSongkickEvents;
 module.exports.getGooglePlacesData = getGooglePlacesData;
 module.exports.getMoreGooglePlacesData = getMoreGooglePlacesData;
 module.exports.getBusyHours = getBusyHours;
-
+module.exports.getAddressLocation = getAddressLocation;

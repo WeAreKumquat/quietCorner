@@ -14,7 +14,7 @@
     date-min-limit="{{$ctrl.minDate.toString()}}"
     date-max-limit="{{$ctrl.maxDate.toString()}}"
   >
-    <input 
+    <input
       readonly
       id="date"
       ng-model="selectedDate"
@@ -26,5 +26,8 @@
   <h3>Select a time!</h3>
   <input type="time" id="time" ng-model="selectedTime" ng-change="$ctrl.getTime()" />
   <h3>Set location!</h3>
+  <input type="text" ng-model="address" />
+  <button type="submit" ng-click="$ctrl.getLocation(address)">Enter Zip or Address</button><br />
+  <h3>Search your current location!</h3>
   <button type="submit" ng-click="$ctrl.getLocation()">Find Near Me</button>
 </div>

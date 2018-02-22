@@ -22,8 +22,10 @@ angular.module('app')
         this.updateAppDate(selectedDate);
       };
 
-      this.getLocation = () => {
-        if (navigator.geolocation) {
+      this.getLocation = (address) => {
+        if (address) {
+          heatUiMod.updateAppLocation(null, null, address);
+        } else if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition((data) => {
             console.dir(data);
             heatUiMod.updateAppLocation(data.coords.latitude, data.coords.longitude);
