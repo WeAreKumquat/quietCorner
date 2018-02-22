@@ -66,8 +66,11 @@ angular.module('app')
       this.placesLayer.setMap(map);
 
       $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation', '$ctrl.selectedTime'], () => {
+        this.latt = this.selectedLocation ? this.selectedLocation.latitude : 29.938389717030724;
+        this.longi = this.selectedLocation ? this.selectedLocation.longitude : -90.09923441913634;
+        this.hour1 = this.selectedTime ? this.selectedTime.slice(0, 2) : `${new Date().getHours()}`;
         map = new google.maps.Map(document.getElementById('newmap'), {
-          center: new google.maps.LatLng(this.lat, this.long),
+          center: new google.maps.LatLng(this.latt, this.longi),
           zoom: 12.5,
         });
         if (Object.prototype.toString.call(heatmap.selectedDate) === '[object Date]') {
