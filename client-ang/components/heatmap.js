@@ -10,10 +10,12 @@ angular.module('app')
 
       this.heatmap = $sce.trustAsHtml('<h3>put heatmap here</h3><h3>put heatmap here</h3><h3>put heatmap here</h3><h3>put heatmap here</h3>');
       this.heatCoords = [];
+      this.placeCoords = [];
       this.infoWindows = [];
       this.markers = [];
-      this.lat = this.selectedLocation ? this.selectedLocation.lattitude : 29.938389717030724;
+      this.lat = this.selectedLocation ? this.selectedLocation.latitude : 29.938389717030724;
       this.long = this.selectedLocation ? this.selectedLocation.longitude : -90.09923441913634;
+      this.hour = this.selectedTime ? this.selectedTime.slice(0, 2) : `${new Date().getHours()}`;
 
       let map = new google.maps.Map(document.getElementById('newmap'), {
         center: new google.maps.LatLng(this.lat, this.long),
@@ -58,6 +60,11 @@ angular.module('app')
         marker.setMap(map);
       });
 
+      this.placesLayer = new google.maps.visualization.HeatmapLayer({
+        data: heatmap.placeCoords,
+      });
+      this.placesLayer.setMap(map);
+
       $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation', '$ctrl.selectedTime'], () => {
         map = new google.maps.Map(document.getElementById('newmap'), {
           center: new google.maps.LatLng(this.lat, this.long),
@@ -69,7 +76,7 @@ angular.module('app')
               heatmap.heatmapLayer.setMap(null);
               heatmap.heatCoords = response.data.map((coordinates) => {
                 return {
-                  location: new google.maps.LatLng(coordinates.lat, coordinates.long), 
+                  location: new google.maps.LatLng(coordinates.lat, coordinates.long),
                   weight: coordinates.num_people,
                 };
               });
@@ -94,6 +101,36 @@ angular.module('app')
               });
             })
             .catch((err) => { console.log('sorry, got an error trying to get the heat map :/', err); });
+
+          const coordinates = `${heatmap.lat}, ${heatmap.long}`;
+
+          $http.get('/places', { params: { coordinates } })
+            .then((response) => {
+              heatmap.placesLayer.setMap(null);
+              heatmap.placeCoords = response.data
+                .filter(place => place.popularity.status === 'ok')
+                .map((place) => {
+                  console.log(place);
+                  const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+                  const hour = heatmap.hour;
+                  // const day = $moment(window.document.getElementById('date').value).format('ddd').toLowercase() || days[new Date().getDay()];
+                  const day = days[new Date().getDay()];
+                  const popularity = place.popularity.now ? place.popularity.now.percentage : place.popularity.week
+                    .filter(dayOfWeek => dayOfWeek.day === day)[0]
+                    .hours
+                    .filter(hourOfDay => hourOfDay.hour === hour)[0]
+                    .percentage;
+
+                  return {
+                    location: new google.maps.LatLng(place.coordinates.lat, place.coordinates.lng),
+                    weight: popularity,
+                  };
+                });
+              heatmap.placesLayer = new google.maps.visualization.HeatmapLayer({
+                data: heatmap.placeCoords,
+              });
+              heatmap.placesLayer.setMap(map);
+            });
         } else {
           console.log('Hmm, looks like the date is not actually a date. Sorry about that!');
         }
