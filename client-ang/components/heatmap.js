@@ -22,9 +22,13 @@ angular.module('app')
 
       // map icons
       this.green = '../images/green.png';
+      this.greenE = '../images/greenE.png';
       this.yellow = '../images/yellow.png';
+      this.yellowE = '../images/yellowE.png';
       this.orange = '../images/orange.png';
+      this.orangeE = '../images/orangeE.png';
       this.red = '../images/red.png';
+      this.redE = '../images/redE.png';
 
       let map = new google.maps.Map(document.getElementById('newmap'), {
         center: new google.maps.LatLng(this.lat, this.long),
@@ -37,7 +41,7 @@ angular.module('app')
             <h3 id="firstHeading" class="firstHeading">${name}</h3>
             <div id="bodyContent">
               <p><b>${address}</b></p>
-              <p>${description}</p>
+              <p><i>${description}</i></p>
             </div>
           </div>
         </div>`
@@ -52,13 +56,13 @@ angular.module('app')
       this.eventMarkerMaker = (position, numPeople) => {
         let icon;
         if (numPeople < 100) {
-          icon = heatmap.green;
+          icon = heatmap.greenE;
         } else if (numPeople < 300) {
-          icon = heatmap.yellow;
+          icon = heatmap.yellowE;
         } else if (numPeople < 500) {
-          icon = heatmap.orange;
+          icon = heatmap.orangeE;
         } else {
-          icon = heatmap.red;
+          icon = heatmap.redE;
         }
         return new google.maps.Marker({
           position,
@@ -83,6 +87,31 @@ angular.module('app')
           map,
           icon,
         });
+      };
+
+      this.isPlaceOpen = (place) => {
+        if (place.popularity.status === 'ok') {
+          const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+          const hour = this.hour1;
+          // const day = $moment(window.document.getElementById('date').value).format('ddd').toLowercase() || days[new Date().getDay()];
+          const day = days[new Date().getDay()];
+          let popularityExists;
+          if (heatmap.selectedTime) {
+            const hourlyPopularity = place.popularity.week
+              .filter(dayOfWeek => dayOfWeek.day === day)[0]
+              .hours
+              .filter(hourOfDay => hourOfDay.hour === `${hour}`)[0];
+            popularityExists = hourlyPopularity ? true : null;
+          } else {
+            popularityExists = place.popularity.now ? place.popularity.now.percentage : place.popularity.week
+              .filter(dayOfWeek => dayOfWeek.day === day)[0]
+              .hours
+              .filter(hourOfDay => hourOfDay.hour === `${hour}`)[0]
+              .percentage;
+          }
+          return !!popularityExists || popularityExists === 0;
+        }
+        return false;
       };
 
       this.heatmapLayer = new google.maps.visualization.HeatmapLayer({
@@ -149,17 +178,17 @@ angular.module('app')
             })
             .catch((err) => { console.log('sorry, got an error trying to get the heat map :/', err); });
 
-          const coordinates = `${heatmap.lat}, ${heatmap.long}`;
+          const coordinates = `${this.latt}, ${this.longi}`;
 
           $http.get('/places', { params: { coordinates } })
             .then((response) => {
               heatmap.placesLayer.setMap(null);
               heatmap.placeCoords = response.data
-                .filter(place => place.popularity.status === 'ok')
+                .filter(place => heatmap.isPlaceOpen(place))
                 .map((place) => {
                   console.log(place);
                   const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-                  const hour = heatmap.hour;
+                  const hour = this.hour1;
                   // const day = $moment(window.document.getElementById('date').value).format('ddd').toLowercase() || days[new Date().getDay()];
                   const day = days[new Date().getDay()];
                   
@@ -179,19 +208,21 @@ angular.module('app')
               heatmap.placesLayer.setMap(map);
 
               heatmap.placeInfoWindows = response.data
-                .filter(place => place.popularity.status === 'ok')
+                .filter(place => heatmap.isPlaceOpen(place))
                 .map((place) => {
-                  const caption = heatmap.captionStringMaker(place.name, place.address, place.description);
+                  const caption = heatmap.captionStringMaker(place.name, place.address, place.description.replace('_', ' '));
                   return heatmap.infoWindowMaker(caption);
                 });
               heatmap.placeMarkers = response.data
-                .filter(place => place.popularity.status === 'ok')
+                .filter(place => heatmap.isPlaceOpen(place))
                 .map((place) => {
                   const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-                  const hour = heatmap.hour;
+                  const hour = this.hour1;
+                  console.log('hour', hour);
                   // const day = $moment(window.document.getElementById('date').value).format('ddd').toLowercase() || days[new Date().getDay()];
                   const day = days[new Date().getDay()];
                   const position = new google.maps.LatLng(place.coordinates.lat, place.coordinates.lng);
+
                   const popularity = place.popularity.now ? place.popularity.now.percentage : place.popularity.week
                     .filter(dayOfWeek => dayOfWeek.day === day)[0]
                     .hours

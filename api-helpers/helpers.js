@@ -4,11 +4,7 @@ const db = require('../db/index.js');
 const moment = require('moment');
 const busyHours = require('busy-hours');
 const googleMapsClient = require('@google/maps').createClient({
-<<<<<<< HEAD
   key: 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA',
-=======
-  key: 'AIzaSyAZwSJf0AQnj2WgdYw9DOYICyjO5jryn7s',
->>>>>>> 51b482724c8d742b624287bbc05ce7cfcb2f3f8f
 });
 /*
 database schema for reference
@@ -129,11 +125,7 @@ const getYelpEvents = () => {
 };
 // AIzaSyCr1U83yUEeHy5Dd6jymXzrwNXDafDSDmg
 const getBusyHours = async (place, callback) => {
-<<<<<<< HEAD
   await busyHours(place.place_id, 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA')
-=======
-  await busyHours(place.place_id, 'AIzaSyAZwSJf0AQnj2WgdYw9DOYICyjO5jryn7s')
->>>>>>> 51b482724c8d742b624287bbc05ce7cfcb2f3f8f
     .then((data) => {
       const placeInfo = {
         name: place.name,
@@ -152,7 +144,8 @@ const getBusyHours = async (place, callback) => {
 const getGooglePlacesData = (coordinates, callback) => {
   const query = {
     location: coordinates,
-    radius: 2000, // about half a mile
+    radius: 1600, // about one mile
+    rankby: 'prominence',
     opennow: true,
   };
 
@@ -169,7 +162,8 @@ const getGooglePlacesData = (coordinates, callback) => {
 const getMoreGooglePlacesData = (coordinates, nextPageToken, callback) => {
   const query = {
     location: coordinates,
-    radius: 2000, // about 1.25 miles
+    radius: 1600, // about 1 mile
+    rankby: 'prominence',
     opennow: true,
     pagetoken: nextPageToken,
   };

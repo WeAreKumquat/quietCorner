@@ -55,4 +55,5 @@ input[type=checkbox] {
     width: 35px;
     height: 35px;
     -moz-appearance: none;
+  min-height: 500px;
 }
