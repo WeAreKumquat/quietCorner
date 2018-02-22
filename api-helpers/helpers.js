@@ -4,7 +4,7 @@ const db = require('../db/index.js');
 const moment = require('moment');
 const busyHours = require('busy-hours');
 const googleMapsClient = require('@google/maps').createClient({
-  key: 'AIzaSyCr1U83yUEeHy5Dd6jymXzrwNXDafDSDmg',
+  key: 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA',
 });
 /*
 database schema for reference
@@ -107,7 +107,7 @@ const getYelpEvents = () => {
 };
 
 const getBusyHours = async (place, callback) => {
-  await busyHours(place.place_id, 'AIzaSyCr1U83yUEeHy5Dd6jymXzrwNXDafDSDmg')
+  await busyHours(place.place_id, 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA')
     .then((data) => {
       const placeInfo = {
         name: place.name,

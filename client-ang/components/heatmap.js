@@ -115,12 +115,12 @@ angular.module('app')
                   const hour = heatmap.hour;
                   // const day = $moment(window.document.getElementById('date').value).format('ddd').toLowercase() || days[new Date().getDay()];
                   const day = days[new Date().getDay()];
+
                   const popularity = place.popularity.now ? place.popularity.now.percentage : place.popularity.week
                     .filter(dayOfWeek => dayOfWeek.day === day)[0]
                     .hours
-                    .filter(hourOfDay => hourOfDay.hour === hour)[0]
+                    .filter(hourOfDay => hourOfDay.hour === `${hour}`)[0]
                     .percentage;
-
                   return {
                     location: new google.maps.LatLng(place.coordinates.lat, place.coordinates.lng),
                     weight: popularity,
