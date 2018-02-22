@@ -14,8 +14,9 @@
     date-min-limit="{{$ctrl.minDate.toString()}}"
     date-max-limit="{{$ctrl.maxDate.toString()}}"
   >
-    <input
+    <input 
       readonly
+      id="date"
       ng-model="selectedDate"
       type="text"
       ng-change="$ctrl.selectDate(selectedDate)"

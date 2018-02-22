@@ -2,6 +2,10 @@ require('dotenv').config();
 const request = require('request');
 const db = require('../db/index.js');
 const moment = require('moment');
+const busyHours = require('busy-hours');
+const googleMapsClient = require('@google/maps').createClient({
+  key: 'AIzaSyCr1U83yUEeHy5Dd6jymXzrwNXDafDSDmg',
+});
 /*
 database schema for reference
 {
@@ -102,5 +106,60 @@ const getYelpEvents = () => {
   });
 };
 
+const getBusyHours = async (place, callback) => {
+  await busyHours(place.place_id, 'AIzaSyCr1U83yUEeHy5Dd6jymXzrwNXDafDSDmg')
+    .then((data) => {
+      const placeInfo = {
+        name: place.name,
+        address: place.vicinity,
+        coordinates: place.geometry.location,
+        popularity: data,
+      };
+      callback(null, placeInfo);
+    })
+    .catch((error) => {
+      callback(error, null);
+    });
+};
+
+const getGooglePlacesData = (coordinates, callback) => {
+  const query = {
+    location: coordinates,
+    radius: 2000, // about half a mile
+    opennow: true,
+  };
+
+  googleMapsClient.placesNearby(query, (error, response) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      const { results } = response.json;
+      callback(null, results);
+    }
+  });
+};
+
+const getMoreGooglePlacesData = (coordinates, nextPageToken, callback) => {
+  const query = {
+    location: coordinates,
+    radius: 2000, // about 1.25 miles
+    opennow: true,
+    pagetoken: nextPageToken,
+  };
+
+  googleMapsClient.placesNearby(query, (error, response) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      const { results } = response.json;
+      callback(null, results);
+    }
+  });
+};
+
 module.exports.getYelpEvents = getYelpEvents;
 module.exports.getSongkickEvents = getSongkickEvents;
+module.exports.getGooglePlacesData = getGooglePlacesData;
+module.exports.getMoreGooglePlacesData = getMoreGooglePlacesData;
+module.exports.getBusyHours = getBusyHours;
+
