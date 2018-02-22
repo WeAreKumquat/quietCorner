@@ -4,6 +4,7 @@ angular.module('app')
       selectedDate: '<',
       selectedTime: '<',
       selectedLocation: '<',
+      showTraffic: '<',
     },
     controller($scope, $http, $sce) {
       const heatmap = this;
@@ -101,10 +102,12 @@ angular.module('app')
       });
       this.placesLayer.setMap(map);
 
-      $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation', '$ctrl.selectedTime'], () => {
+      $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation', '$ctrl.selectedTime', '$ctrl.showTraffic'], () => {
         this.latt = this.selectedLocation ? this.selectedLocation.latitude : 29.938389717030724;
         this.longi = this.selectedLocation ? this.selectedLocation.longitude : -90.09923441913634;
         this.hour1 = this.selectedTime ? this.selectedTime.slice(0, 2) : `${new Date().getHours()}`;
+        this.traf = this.showTraffic;
+        console.log(this.traf);
         map = new google.maps.Map(document.getElementById('newmap'), {
           center: new google.maps.LatLng(this.latt, this.longi),
           zoom: 12.5,
@@ -123,6 +126,11 @@ angular.module('app')
                 data: heatmap.heatCoords,
               });
               heatmap.heatmapLayer.setMap(map);
+
+              if (heatmap.traf) {
+                heatmap.trafficLayer = new google.maps.TrafficLayer();
+                heatmap.trafficLayer.setMap(map);
+              }
 
               heatmap.eventInfoWindows = response.data.map((event) => {
                 const caption = heatmap.captionStringMaker(event.name, event.address, event.description);
