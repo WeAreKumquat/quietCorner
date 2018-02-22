@@ -66,6 +66,7 @@ app.get('/places', (req, res) => {
     if (error) {
       throw new Error(error);
     } else {
+      const nextPageToken = places.next_page_token;
       const results = places.map((place) => {
         return helpers.getBusyHours(place, (err, placeInfo) => {
           if (err) {
@@ -76,10 +77,27 @@ app.get('/places', (req, res) => {
           }
         });
       });
-      await Promise.all(results)
-        .then(() => {
-          res.send(promiseResults);
-        });
+      await helpers.getMoreGooglePlacesData(coordinates, nextPageToken, async (err, morePlaces) => {
+        if (err) {
+          throw new Error(error);
+        } else {
+          const moreResults = morePlaces.map((place) => {
+            return helpers.getBusyHours(place, (anotherErr, placeInfo) => {
+              if (anotherErr) {
+                throw new Error(err);
+              } else {
+                promiseResults.push(placeInfo);
+                return placeInfo;
+              }
+            });
+          });
+          await Promise.all(moreResults)
+            .then(() => {
+              console.log(promiseResults);
+              res.send(promiseResults);
+            });
+        }
+      });
     }
   });
 });
