@@ -61,11 +61,25 @@ app.post('/recommend', (req, res) => {
 
 app.get('/places', (req, res) => {
   const { coordinates } = req.query;
-  helpers.getGooglePlacesData(coordinates, (error, placeData) => {
+  const promiseResults = [];
+  helpers.getGooglePlacesData(coordinates, async (error, places) => {
     if (error) {
       throw new Error(error);
     } else {
-      res.send(placeData);
+      const results = places.map((place) => {
+        return helpers.getBusyHours(place, (err, placeInfo) => {
+          if (err) {
+            throw new Error(err);
+          } else {
+            promiseResults.push(placeInfo);
+            return placeInfo;
+          }
+        });
+      });
+      await Promise.all(results)
+        .then(() => {
+          res.send(promiseResults);
+        });
     }
   });
 });

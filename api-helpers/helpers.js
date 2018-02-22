@@ -3,6 +3,9 @@ const request = require('request');
 const db = require('../db/index.js');
 const moment = require('moment');
 const busyHours = require('busy-hours');
+const googleMapsClient = require("@google/maps").createClient({
+  key: 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA',
+});
 /*
 database schema for reference
 {
@@ -103,44 +106,35 @@ const getYelpEvents = () => {
   });
 };
 
-const getBusyHours = async (places, callback) => {
-  const placeData = [];
-  await places.forEach((place) => {
-    busyHours(place.place_id, process.env.GOOGLE_API_KEY)
-      .then((data) => {
-        const placeInfo = {
-          name: place.name,
-          address: place.vicinity,
-          coordinates: place.geometry.location,
-          popularity: data,
-        };
-        placeData.push(placeInfo);
-      })
-      .catch((error) => {
-        callback(error, null);
-      });
-  });
-  callback(null, placeData);
+const getBusyHours = async (place, callback) => {
+  await busyHours(place.place_id, 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA')
+    .then((data) => {
+      const placeInfo = {
+        name: place.name,
+        address: place.vicinity,
+        coordinates: place.geometry.location,
+        popularity: data,
+      };
+      callback(null, placeInfo);
+    })
+    .catch((error) => {
+      callback(error, null);
+    });
 };
 
 const getGooglePlacesData = (coordinates, callback) => {
-  const options = {
-    method: 'GET',
-    url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
-    qs: {
-      key: process.env.GOOGLE_API_KEY,
-      location: coordinates,
-      radius: 805, // about half a mile
-      opennow: true,
-    },
+  const query = {
+    location: coordinates,
+    radius: 805, // about half a mile
+    opennow: true,
   };
-  request(options, (error, response, body) => {
+
+  googleMapsClient.placesNearby(query, (error, response) => {
     if (error) {
       callback(error, null);
-    }
-    const data = JSON.parse(body);
-    if (data && data.results.length) {
-      getBusyHours(data.results, callback);
+    } else {
+      const { results } = response.json;
+      callback(null, results);
     }
   });
 };
@@ -148,4 +142,5 @@ const getGooglePlacesData = (coordinates, callback) => {
 module.exports.getYelpEvents = getYelpEvents;
 module.exports.getSongkickEvents = getSongkickEvents;
 module.exports.getGooglePlacesData = getGooglePlacesData;
+module.exports.getBusyHours = getBusyHours;
 
