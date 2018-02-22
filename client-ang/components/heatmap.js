@@ -11,11 +11,17 @@ angular.module('app')
       this.heatmap = $sce.trustAsHtml('<h3>put heatmap here</h3><h3>put heatmap here</h3><h3>put heatmap here</h3><h3>put heatmap here</h3>');
       this.heatCoords = [];
       this.placeCoords = [];
-      this.infoWindows = [];
-      this.markers = [];
+      this.eventInfoWindows = [];
+      this.eventMarkers = [];
       this.lat = this.selectedLocation ? this.selectedLocation.latitude : 29.938389717030724;
       this.long = this.selectedLocation ? this.selectedLocation.longitude : -90.09923441913634;
       this.hour = this.selectedTime ? this.selectedTime.slice(0, 2) : `${new Date().getHours()}`;
+
+      // map icons
+      this.green = '../images/green.png';
+      this.yellow = '../images/yellow.png';
+      this.orange = '../images/orange.png';
+      this.red = '../images/red.png';
 
       let map = new google.maps.Map(document.getElementById('newmap'), {
         center: new google.maps.LatLng(this.lat, this.long),
@@ -40,11 +46,21 @@ angular.module('app')
         });
       };
 
-      this.markerMaker = (position, title) => {
+      this.eventMarkerMaker = (position, numPeople) => {
+        let icon;
+        if (numPeople < 100) {
+          icon = heatmap.green;
+        } else if (numPeople < 300) {
+          icon = heatmap.yellow;
+        } else if (numPeople < 500) {
+          icon = heatmap.orange;
+        } else {
+          icon = heatmap.red;
+        }
         return new google.maps.Marker({
           position,
           map,
-          title,
+          icon,
         });
       };
 
@@ -53,9 +69,9 @@ angular.module('app')
       });
       this.heatmapLayer.setMap(map);
 
-      heatmap.markers.forEach((marker, i) => {
+      heatmap.eventMarkers.forEach((marker, i) => {
         marker.addListener('click', () => {
-          heatmap.infoWindows[i].open(map, marker);
+          heatmap.eventInfoWindows[i].open(map, marker);
         });
         marker.setMap(map);
       });
@@ -85,17 +101,17 @@ angular.module('app')
               });
               heatmap.heatmapLayer.setMap(map);
 
-              heatmap.infoWindows = response.data.map((event) => {
+              heatmap.eventInfoWindows = response.data.map((event) => {
                 const caption = heatmap.captionStringMaker(event.name, event.address, event.description);
                 return heatmap.infoWindowMaker(caption);
               });
-              heatmap.markers = response.data.map((event) => {
+              heatmap.eventMarkers = response.data.map((event) => {
                 const position = new google.maps.LatLng(event.lat, event.long);
-                return heatmap.markerMaker(position, event.name);
+                return heatmap.eventMarkerMaker(position, event.num_people);
               });
-              heatmap.markers.forEach((marker, i) => {
+              heatmap.eventMarkers.forEach((marker, i) => {
                 marker.addListener('click', () => {
-                  heatmap.infoWindows[i].open(map, marker);
+                  heatmap.eventInfoWindows[i].open(map, marker);
                 });
                 marker.setMap(map);
               });
@@ -104,33 +120,33 @@ angular.module('app')
 
           const coordinates = `${heatmap.lat}, ${heatmap.long}`;
 
-          $http.get('/places', { params: { coordinates } })
-            .then((response) => {
-              heatmap.placesLayer.setMap(null);
-              heatmap.placeCoords = response.data
-                .filter(place => place.popularity.status === 'ok')
-                .map((place) => {
-                  console.log(place);
-                  const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-                  const hour = heatmap.hour;
-                  // const day = $moment(window.document.getElementById('date').value).format('ddd').toLowercase() || days[new Date().getDay()];
-                  const day = days[new Date().getDay()];
+          // $http.get('/places', { params: { coordinates } })
+          //   .then((response) => {
+          //     heatmap.placesLayer.setMap(null);
+          //     heatmap.placeCoords = response.data
+          //       .filter(place => place.popularity.status === 'ok')
+          //       .map((place) => {
+          //         console.log(place);
+          //         const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+          //         const hour = heatmap.hour;
+          //         // const day = $moment(window.document.getElementById('date').value).format('ddd').toLowercase() || days[new Date().getDay()];
+          //         const day = days[new Date().getDay()];
 
-                  const popularity = place.popularity.now ? place.popularity.now.percentage : place.popularity.week
-                    .filter(dayOfWeek => dayOfWeek.day === day)[0]
-                    .hours
-                    .filter(hourOfDay => hourOfDay.hour === `${hour}`)[0]
-                    .percentage;
-                  return {
-                    location: new google.maps.LatLng(place.coordinates.lat, place.coordinates.lng),
-                    weight: popularity,
-                  };
-                });
-              heatmap.placesLayer = new google.maps.visualization.HeatmapLayer({
-                data: heatmap.placeCoords,
-              });
-              heatmap.placesLayer.setMap(map);
-            });
+          //         const popularity = place.popularity.now ? place.popularity.now.percentage : place.popularity.week
+          //           .filter(dayOfWeek => dayOfWeek.day === day)[0]
+          //           .hours
+          //           .filter(hourOfDay => hourOfDay.hour === `${hour}`)[0]
+          //           .percentage;
+          //         return {
+          //           location: new google.maps.LatLng(place.coordinates.lat, place.coordinates.lng),
+          //           weight: popularity,
+          //         };
+          //       });
+          //     heatmap.placesLayer = new google.maps.visualization.HeatmapLayer({
+          //       data: heatmap.placeCoords,
+          //     });
+          //     heatmap.placesLayer.setMap(map);
+          //   });
         } else {
           console.log('Hmm, looks like the date is not actually a date. Sorry about that!');
         }
