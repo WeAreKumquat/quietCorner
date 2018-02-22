@@ -4,6 +4,8 @@ angular.module('app')
       updateAppDate: '<',
       updateAppTime: '<',
       updateAppLocation: '<',
+      updateShowTraffic: '<',
+      showTraffic: '<',
     },
     controller() {
       const heatUiMod = this;
@@ -35,6 +37,10 @@ angular.module('app')
 
       this.getTime = () => {
         heatUiMod.updateAppTime();
+      };
+
+      this.toggleTraffic = () => {
+        heatUiMod.updateShowTraffic();
       };
     },
     templateUrl: '/templates/heatmapUI.html',
