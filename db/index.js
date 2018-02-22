@@ -82,7 +82,7 @@ const fetchSingleDate = (date) => {
 
   // query db
   return Event.findAll({
-    attributes: ['lat', 'long', 'name', 'description', 'address'],
+    attributes: ['lat', 'long', 'name', 'description', 'address', 'num_people'],
     where: {
       date: {
         [Op.between]: [date, nextDate],

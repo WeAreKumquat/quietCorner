@@ -4,7 +4,11 @@ const db = require('../db/index.js');
 const moment = require('moment');
 const busyHours = require('busy-hours');
 const googleMapsClient = require('@google/maps').createClient({
+<<<<<<< HEAD
+  key: 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA',
+=======
   key: 'AIzaSyAZwSJf0AQnj2WgdYw9DOYICyjO5jryn7s',
+>>>>>>> 51b482724c8d742b624287bbc05ce7cfcb2f3f8f
 });
 /*
 database schema for reference
@@ -24,12 +28,13 @@ database schema for reference
 const songkickFormatForDatabase = (resultArray) => {
   resultArray.forEach((event) => {
     const formattedEvent = {
+      address: event.venue.displayName,
       lat: event.venue.lat,
       long: event.venue.lng,
       date: `${event.start.date} ${event.start.time}`,
       name: event.displayName,
       description: event.type,
-      num_people: event.popularity * 100,
+      num_people: event.popularity * 1000,
       event_link: event.uri,
     };
     db.addEvent(formattedEvent)
@@ -124,13 +129,18 @@ const getYelpEvents = () => {
 };
 // AIzaSyCr1U83yUEeHy5Dd6jymXzrwNXDafDSDmg
 const getBusyHours = async (place, callback) => {
+<<<<<<< HEAD
+  await busyHours(place.place_id, 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA')
+=======
   await busyHours(place.place_id, 'AIzaSyAZwSJf0AQnj2WgdYw9DOYICyjO5jryn7s')
+>>>>>>> 51b482724c8d742b624287bbc05ce7cfcb2f3f8f
     .then((data) => {
       const placeInfo = {
         name: place.name,
         address: place.vicinity,
         coordinates: place.geometry.location,
         popularity: data,
+        description: place.types[0],
       };
       callback(null, placeInfo);
     })

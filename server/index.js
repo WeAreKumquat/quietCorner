@@ -79,23 +79,40 @@ app.get('/places', (req, res) => {
       });
       await helpers.getMoreGooglePlacesData(coordinates, nextPageToken, async (err, morePlaces) => {
         if (err) {
-          throw new Error(error);
+          throw new Error(err);
         } else {
+          const anotherPageToken = morePlaces.next_page_token;
           const moreResults = morePlaces.map((place) => {
             return helpers.getBusyHours(place, (anotherErr, placeInfo) => {
               if (anotherErr) {
-                throw new Error(err);
+                throw new Error(anotherErr);
               } else {
                 promiseResults.push(placeInfo);
                 return placeInfo;
               }
             });
           });
-          await Promise.all(moreResults)
-            .then(() => {
-              console.log(promiseResults);
-              res.send(promiseResults);
-            });
+          await helpers.getMoreGooglePlacesData(coordinates, anotherPageToken, async (err500, evenMorePlaces) => {
+            if (err500) {
+              throw new Error(err500);
+            } else {
+              const evenMoreResults = evenMorePlaces.map((place) => {
+                return helpers.getBusyHours(place, (anotherErr, placeInfo) => {
+                  if (anotherErr) {
+                    throw new Error(anotherErr);
+                  } else {
+                    promiseResults.push(placeInfo);
+                    return placeInfo;
+                  }
+                });
+              });
+              await Promise.all(evenMoreResults)
+                .then(() => {
+                  console.log(promiseResults);
+                  res.send(promiseResults);
+                });
+            }
+          });
         }
       });
     }

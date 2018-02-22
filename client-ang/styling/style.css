@@ -37,3 +37,16 @@ h4{
   overflow:auto; 
   width:100%; 
 }
+
+#heatmap-col {
+  height: 100%;
+}
+
+#heatmap-box {
+  height: 100%;
+}
+
+#newmap {
+  height: 100%;
+  min-height: 420px;
+}
