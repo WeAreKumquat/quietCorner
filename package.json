@@ -23,6 +23,7 @@
   "homepage": "https://github.com/nteal/immersion-2018-01-greenfield#readme",
   "devDependencies": {},
   "dependencies": {
+    "@google/maps": "^0.4.5",
     "angular": "^1.6.9",
     "body-parser": "^1.18.2",
     "busy-hours": "0.0.1",
