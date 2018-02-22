@@ -1,7 +1,7 @@
 angular.module('app')
   .component('app', {
     bindings: {},
-    controller() {
+    controller($http) {
       const appMod = this;
       // initialize app's selectedDate to be current date
       // create updateAppDate function to pass to heatMapContainer, then to heatMapUI
@@ -12,9 +12,17 @@ angular.module('app')
         console.dir(window.document.getElementById('time').value);
         appMod.selectedTime = window.document.getElementById('time').value;
       }.bind(appMod);
-      this.updateAppLocation = function (lat, long) {
-        console.log(lat, long);
-        appMod.selectedLocation = { latitude: lat, longitude: long };
+      this.updateAppLocation = function (lat, long, address) {
+        if (lat) {
+          console.log(lat, long);
+          appMod.selectedLocation = { latitude: lat, longitude: long };
+        } else if (address) {
+          $http.get('/address', { params: { address }} )
+          .then((coords) => {
+            console.log(coords.data.lat, coords.data.lng);
+              appMod.selectedLocation = { latitude: coords.data.lat, longitude: coords.data.lng };
+            });
+        }
       }.bind(appMod);
     },
     templateUrl: '/templates/app.html',
