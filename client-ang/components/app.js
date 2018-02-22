@@ -24,6 +24,10 @@ angular.module('app')
             });
         }
       }.bind(appMod);
+      this.updateShowTraffic = function () {
+        appMod.showTraffic ? appMod.showTraffic = false : appMod.showTraffic = true;
+        console.log(appMod.showTraffic);
+      }.bind(appMod);
     },
     templateUrl: '/templates/app.html',
   });
