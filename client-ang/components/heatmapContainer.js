@@ -7,6 +7,8 @@ angular.module('app')
       selectedTime: '<',
       updateAppLocation: '<',
       selectedLocation: '<',
+      showTraffic: '<',
+      updateShowTraffic: '<',
     },
     controller() {},
     templateUrl: '/templates/heatmapContainer.html',
