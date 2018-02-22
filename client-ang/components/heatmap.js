@@ -25,7 +25,7 @@ angular.module('app')
       this.captionStringMaker = (name, address, description) => (
         `<div id="content>
           <div id="siteNotice">
-            <h1 id="firstHeading" class="firstHeading">${name}</h1>
+            <h3 id="firstHeading" class="firstHeading">${name}</h3>
             <div id="bodyContent">
               <p><b>${address}</b></p>
               <p>${description}</p>
