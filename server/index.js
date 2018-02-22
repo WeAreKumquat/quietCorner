@@ -102,6 +102,13 @@ app.get('/places', (req, res) => {
   });
 });
 
+app.get('/address', (req, res) => {
+  helpers.getAddressLocation(req.query.address, (response) => {
+    const data = JSON.parse(response);
+    res.send(data.results[0].geometry.location);
+  });
+});
+
 // listen to PORT, either environment var or 3000
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
