@@ -12,11 +12,11 @@ angular.module('app')
       this.heatCoords = [];
       this.infoWindows = [];
       this.markers = [];
+      this.lat = this.selectedLocation ? this.selectedLocation.lattitude : 29.938389717030724;
+      this.long = this.selectedLocation ? this.selectedLocation.longitude : -90.09923441913634;
 
-      // create google maps and add to div:
-      let nola = new google.maps.LatLng(29.938389717030724, -90.09923441913634);
       let map = new google.maps.Map(document.getElementById('newmap'), {
-        center: nola,
+        center: new google.maps.LatLng(this.lat, this.long),
         zoom: 12.5,
       });
 
@@ -58,7 +58,11 @@ angular.module('app')
         marker.setMap(map);
       });
 
-      $scope.$watch('$ctrl.selectedDate', () => {
+      $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation', '$ctrl.selectedTime'], () => {
+        map = new google.maps.Map(document.getElementById('newmap'), {
+          center: new google.maps.LatLng(this.lat, this.long),
+          zoom: 12.5,
+        });
         if (Object.prototype.toString.call(heatmap.selectedDate) === '[object Date]') {
           $http.post('/heatmap', { date: heatmap.selectedDate })
             .then((response) => {
