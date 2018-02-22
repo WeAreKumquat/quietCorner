@@ -24,12 +24,13 @@ database schema for reference
 const songkickFormatForDatabase = (resultArray) => {
   resultArray.forEach((event) => {
     const formattedEvent = {
+      address: event.venue.displayName,
       lat: event.venue.lat,
       long: event.venue.lng,
       date: `${event.start.date} ${event.start.time}`,
       name: event.displayName,
       description: event.type,
-      num_people: event.popularity * 100,
+      num_people: event.popularity * 1000,
       event_link: event.uri,
     };
     db.addEvent(formattedEvent)
@@ -114,6 +115,7 @@ const getBusyHours = async (place, callback) => {
         address: place.vicinity,
         coordinates: place.geometry.location,
         popularity: data,
+        description: place.types[0],
       };
       callback(null, placeInfo);
     })
