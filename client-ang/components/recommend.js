@@ -9,8 +9,10 @@ angular.module('app')
     controller() {
       // display 'image not found' if image value is null
       this.checkImage = (imageUrl) => {
+        const skImages = ['../images/sk-img.jpg', '../images/sk-img1.jpg', '../images/sk-img2.jpg'];
+
         if (this.image === null) {
-          this.image = 'https://elitescreens.com/images/product_album/no_image.png';
+          this.image = skImages[Math.floor(Math.random() * skImages.length)];
         }
         return this.image;
       };
