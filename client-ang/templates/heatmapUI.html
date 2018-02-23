@@ -1,4 +1,4 @@
-<div class="su-frame clearfix" style="border-color:#7EBDC2;">
+<div class="container" style="border-color:#7EBDC2;">
   <div  style="border-bottom: 2px solid #F3DFA2; margin-bottom: 10px; padding-bottom: 10px">
     <h2>Welcome to Quiet Corner</h2>
     <div style="text-align: left">
@@ -9,26 +9,24 @@
   </div>
   
   <div class="container">
-
-    <div class="row selections">
+    
+    <div class="row">
+      
       <div class="col">
-        <h3>CUSTOMIZE SELECTIONS!</h3>
-      </div>
-      <div class="col">
-        <h3>SELECTIONS FOR NEW MAP:</h3>
-      </div>
-    </div>
-  
-    <div class="row selections">
-      <div class="col">
-        <h3>Select a date!</h3>
-        <datepicker
-          date-format="shortDate"
-          date-set="{{$ctrl.date.toString()}}"
-          date-min-limit="{{$ctrl.minDate.toString()}}"
-          date-max-limit="{{$ctrl.maxDate.toString()}}"
-        >
-        <input
+        <div class="row">
+          <h3>Select a date!</h3>
+        </div>
+        <div class="row">
+          <button type="submit" id="submitbutton" ng-click="$ctrl.submit()">Submit Selections</button>
+        </div>
+        <div class="row">
+          <datepicker
+            date-format="shortDate"
+            date-set="{{$ctrl.date.toString()}}"
+            date-min-limit="{{$ctrl.minDate.toString()}}"
+            date-max-limit="{{$ctrl.maxDate.toString()}}"
+          >
+          <input
           class="input-lg"
           readonly
           id="date"
@@ -39,57 +37,70 @@
           />
         </datepicker>
       </div>
-      <div class="col">
-        <h3>Date:</h3>
+      <div class="row">
         <h4>{{$ctrl.displayDate}}</h4>
       </div>
     </div>
-
-    <div class="row selections">
-      <div class="col">
+    
+    <div class="col">
+      <div class="row">
         <h3>Select a time!</h3>
+      </div>
+      <div class="row">
         <input class="input-lg" type="time" id="time" ng-model="selectedTime" ng-change="$ctrl.getTime()" />
       </div>
-      <div class="col">
+      <div class="row">
         <h3>Time:</h3>
+      </div>
+      <div class="row">
         <h4>{{$ctrl.time}}</h4>
       </div>
     </div>
-
-    <div class="row selections">
-      <div class="col">
+    
+    <div class="col">
+      <div class="row">
         <h3>Set location!</h3>
-        <input type="text" id="address" ng-model="address" placeholder="zip or address" /></br>
+      </div>
+      <div class="row">
+        <input type="text" id="address" ng-model="address" placeholder="zip or address" /><br />
         <button type="submit" ng-click="$ctrl.getLocation(address)">stage location for new map</button>
-          <!-- <h5>auto-select your current location!</h5> -->
+        <!-- <h5>auto-select your current location!</h5> -->
         <!-- <button type="submit" ng-click="$ctrl.getLocation()">Find Near Me</button> -->
       </div>
-      <div class="col">
+      <div class="row">
         <h3>Location:</h3>
+      </div>
+      <div class="row">
         <h4>{{$ctrl.location}}</h4>
       </div>
     </div>
-
-    <div class="row selections">
-      <div class="col">
+    
+    <div class="col">
+      <div class="row">
         <h3>Check this box to show traffic!</h3>
+      </div>
+      <div class="row">
         <input class="input-lg" type="checkbox" ng-model="showTraffic" ng-click="$ctrl.toggleTraffic()" />
       </div>
-      <div class="col">
-          <h3>Show traffic:</h3>
+      <div class="row">
+        <h3>Show traffic:</h3>
+      </div>
+      <div class="row">
           <h4>{{$ctrl.showTraffic}}</h4>
       </div>
     </div>
-
+    
+  </div>
+  
     <div class="row">
       <div class="col">
       </div>
       <div class="col">
-          <h3>REQUEST NEW MAP!</h3>
-          <button type="submit" id="submitbutton" ng-click="$ctrl.submit()">Submit Selections</button>
+        <h3>REQUEST NEW MAP!</h3>
+        <button type="submit" id="submitbutton" ng-click="$ctrl.submit()">Submit Selections</button>
       </div>
     </div>
-
+    
   </div>
 
 </div>
