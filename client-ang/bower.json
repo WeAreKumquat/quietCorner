@@ -21,7 +21,6 @@
     "angular": "^1.6.9",
     "angular-route": "^1.6.9",
     "angularjs-datepicker": "^2.1.23",
-    "suave-ui": "^0.3.1",
     "angular-momentjs": "^0.2.2",
     "angular-bootstrap": "^2.5.0"
   }
