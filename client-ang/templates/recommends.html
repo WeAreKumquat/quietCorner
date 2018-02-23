@@ -1,5 +1,5 @@
 <div class="su-row su-c clearfix"  style="width: 100%;">
-  <h2 style="margin-top: 20px">Recommendations</h2>
+  <h2 style="margin-top: 20px">Recommendations for {{$ctrl.displayDate}}</h2>
   <div ng-repeat="recommendation in $ctrl.recommendsArr" class="{{$ctrl.getGridWidth($index)}}">
     <div class="su-box">
       <recommend image="recommendation.image" name="recommendation.name" description="recommendation.description" link="recommendation.link"></recommend>

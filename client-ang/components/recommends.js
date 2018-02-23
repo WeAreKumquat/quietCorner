@@ -5,7 +5,7 @@ angular.module('app')
       selectedLocation: '<',
     },
     // TODO: delete dummy data from dependencies (and everywhere else)
-    controller($scope, $http, $sce) {
+    controller($scope, $http, $sce, $moment) {
       const recommendsMod = this;
 
       this.name = 'name';
@@ -16,9 +16,14 @@ angular.module('app')
       // create grid styling for recommendations:
       this.getGridWidth = index => (index === 1 ? 'su-col-2' : 'su-col-edge-2');
 
-      // make http req whenever selectedDate is updated
+      // format selected date to display
+      this.displayDate = this.selectedDate ? $moment(new Date(this.selectedDate)).format('dddd, MMMM Do') : 'Today';
+
+      // make http req whenever selectedDate is updated   
       $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation'], () => {
         if (Object.prototype.toString.call(recommendsMod.selectedDate) === '[object Date]') {
+          recommendsMod.displayDate = recommendsMod.selectedDate ? $moment(new Date(recommendsMod.selectedDate)).format('dddd, MMMM Do') : 'Today';
+          
           // TODO: uncomment following lines, update endpoint, and use response data correctly in `then` statement
           $http.post('/recommend', { date: recommendsMod.selectedDate })
             // currently expecting response to give back array of objs
