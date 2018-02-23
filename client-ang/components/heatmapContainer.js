@@ -9,6 +9,8 @@ angular.module('app')
       selectedLocation: '<',
       showTraffic: '<',
       updateShowTraffic: '<',
+      newMap: '<',
+      go: '<',
     },
     controller() {},
     templateUrl: '/templates/heatmapContainer.html',

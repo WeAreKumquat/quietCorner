@@ -32,4 +32,11 @@
   <button type="submit" ng-click="$ctrl.getLocation()">Find Near Me</button>
   <h3>Show traffic!</h3>
   <input type="checkbox" ng-model="showTraffic" ng-click="$ctrl.toggleTraffic()" />
+  <h3>Selections:</h3>
+  <h5>Date: {{$ctrl.displayDate}}</h5>
+  <h5>Time: {{$ctrl.time}}</h5>
+  <h5>Location: {{$ctrl.location}}</h5>
+  <h5>Show Traffic: {{$ctrl.showTraffic}}</h5>
+  <h3>Submit your Selections!</h3>
+  <button type="submit" id="submitbutton" ng-click="$ctrl.submit()">Submit Selections</button>
 </div>
