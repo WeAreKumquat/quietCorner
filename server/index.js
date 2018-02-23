@@ -119,6 +119,31 @@ app.get('/places', (req, res) => {
   });
 });
 
+app.get('/events', (req, res) => {
+  const { lat, lng, date } = req.query;
+  helpers.getFacebookEvents(lat, lng, date, (error, events) => {
+    if (error) {
+      throw new Error(error);
+    } else {
+      const eventsToSend = events.events.map((event) => {
+        const result = {};
+        result.name = event.name;
+        result.date = event.startTime;
+        result.coordinates = {
+          lat: event.place.location.latitude,
+          lng: event.place.location.longitude,
+        };
+        result.venue = event.place.name;
+        result.address = `${event.place.location.street}, ${event.place.location.city}`;
+        result.numPeople = event.stats.attending;
+        result.description = event.description;
+        return result;
+      });
+      res.send(JSON.stringify(eventsToSend));
+    }
+  });
+});
+
 app.get('/address', (req, res) => {
   helpers.getAddressLocation(req.query.address, (response) => {
     const data = JSON.parse(response);

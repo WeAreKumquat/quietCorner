@@ -6,6 +6,7 @@ const busyHours = require('busy-hours');
 const googleMapsClient = require('@google/maps').createClient({
   key: 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA',
 });
+const EventSearch = require('facebook-events-by-location-core');
 /*
 database schema for reference
 {
@@ -178,9 +179,29 @@ const getMoreGooglePlacesData = (coordinates, nextPageToken, callback) => {
   });
 };
 
+const getFacebookEvents = (lat, lng, date, callback) => {
+  const endOfDay = moment(date).endOf('day').toISOString();
+  const es = new EventSearch();
+
+  es.search({
+    lat,
+    lng,
+    distance: 1600,
+    since: date,
+    until: endOfDay,
+  })
+    .then((events) => {
+      callback(null, events);
+    })
+    .catch((error) => {
+      callback(error, null);
+    });
+};
+
 module.exports.getYelpEvents = getYelpEvents;
 module.exports.getSongkickEvents = getSongkickEvents;
 module.exports.getGooglePlacesData = getGooglePlacesData;
 module.exports.getMoreGooglePlacesData = getMoreGooglePlacesData;
 module.exports.getBusyHours = getBusyHours;
 module.exports.getAddressLocation = getAddressLocation;
+module.exports.getFacebookEvents = getFacebookEvents;
