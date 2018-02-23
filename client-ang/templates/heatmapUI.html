@@ -7,36 +7,89 @@
       </p>
     </div>
   </div>
-  <h3>Select a date!</h3>
-  <datepicker
-    date-format="shortDate"
-    date-set="{{$ctrl.date.toString()}}"
-    date-min-limit="{{$ctrl.minDate.toString()}}"
-    date-max-limit="{{$ctrl.maxDate.toString()}}"
-  >
-    <input
-      readonly
-      id="date"
-      ng-model="selectedDate"
-      type="text"
-      ng-change="$ctrl.selectDate(selectedDate)"
-      style="height:30px; width:200px; text-align:center; font-size:20px"
-    />
-  </datepicker>
-  <h3>Select a time!</h3>
-  <input type="time" id="time" ng-model="selectedTime" ng-change="$ctrl.getTime()" />
-  <h3>Set location!</h3>
-  <input type="text" ng-model="address" />
-  <button type="submit" ng-click="$ctrl.getLocation(address)">Enter Zip or Address</button><br />
-  <h3>Search your current location!</h3>
-  <button type="submit" ng-click="$ctrl.getLocation()">Find Near Me</button>
-  <h3>Show traffic!</h3>
-  <input type="checkbox" ng-model="showTraffic" ng-click="$ctrl.toggleTraffic()" />
-  <h3>Selections:</h3>
-  <h5>Date: {{$ctrl.displayDate}}</h5>
-  <h5>Time: {{$ctrl.time}}</h5>
-  <h5>Location: {{$ctrl.location}}</h5>
-  <h5>Show Traffic: {{$ctrl.showTraffic}}</h5>
-  <h3>Submit your Selections!</h3>
-  <button type="submit" id="submitbutton" ng-click="$ctrl.submit()">Submit Selections</button>
+  
+  <div class="container">
+
+    <div class="row selections">
+      <div class="col">
+        <h3>CUSTOMIZE SELECTIONS!</h3>
+      </div>
+      <div class="col">
+        <h3>SELECTIONS FOR NEW MAP:</h3>
+      </div>
+    </div>
+  
+    <div class="row selections">
+      <div class="col">
+        <h3>Select a date!</h3>
+        <datepicker
+          date-format="shortDate"
+          date-set="{{$ctrl.date.toString()}}"
+          date-min-limit="{{$ctrl.minDate.toString()}}"
+          date-max-limit="{{$ctrl.maxDate.toString()}}"
+        >
+        <input
+          class="input-lg"
+          readonly
+          id="date"
+          ng-model="selectedDate"
+          type="text"
+          ng-change="$ctrl.selectDate(selectedDate)"
+          style="height:30px; width:200px; text-align:center; font-size:20px"
+          />
+        </datepicker>
+      </div>
+      <div class="col">
+        <h3>Date:</h3>
+        <h4>{{$ctrl.displayDate}}</h4>
+      </div>
+    </div>
+
+    <div class="row selections">
+      <div class="col">
+        <h3>Select a time!</h3>
+        <input class="input-lg" type="time" id="time" ng-model="selectedTime" ng-change="$ctrl.getTime()" />
+      </div>
+      <div class="col">
+        <h3>Time:</h3>
+        <h4>{{$ctrl.time}}</h4>
+      </div>
+    </div>
+
+    <div class="row selections">
+      <div class="col">
+        <h3>Set location!</h3>
+        <input type="text" id="address" ng-model="address" placeholder="zip or address" /></br>
+        <button type="submit" ng-click="$ctrl.getLocation(address)">stage location for new map</button>
+          <!-- <h5>auto-select your current location!</h5> -->
+        <!-- <button type="submit" ng-click="$ctrl.getLocation()">Find Near Me</button> -->
+      </div>
+      <div class="col">
+        <h3>Location:</h3>
+        <h4>{{$ctrl.location}}</h4>
+      </div>
+    </div>
+
+    <div class="row selections">
+      <div class="col">
+        <h3>Check this box to show traffic!</h3>
+        <input class="input-lg" type="checkbox" ng-model="showTraffic" ng-click="$ctrl.toggleTraffic()" />
+      </div>
+      <div class="col">
+          <h3>Show traffic:</h3>
+          <h4>{{$ctrl.showTraffic}}</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col">
+          <h3>REQUEST NEW MAP!</h3>
+          <button type="submit" id="submitbutton" ng-click="$ctrl.submit()">Submit Selections</button>
+      </div>
+    </div>
+
+  </div>
+
 </div>
