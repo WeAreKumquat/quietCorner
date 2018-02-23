@@ -104,15 +104,11 @@ angular.module('app')
               .filter(dayOfWeek => dayOfWeek.day === day)[0]
               .hours
               .filter(hourOfDay => hourOfDay.hour === `${hour}`)[0];
-            popularityExists = hourlyPopularity ? true : null;
+            popularityExists = hourlyPopularity ? true : false;
           } else {
-            popularityExists = place.popularity.now ? place.popularity.now.percentage : place.popularity.week
-              .filter(dayOfWeek => dayOfWeek.day === day)[0]
-              .hours
-              .filter(hourOfDay => hourOfDay.hour === `${hour}`)[0]
-              .percentage;
+            popularityExists = true;
           }
-          return !!popularityExists || popularityExists === 0;
+          return !!popularityExists;
         }
         return false;
       };
