@@ -126,6 +126,7 @@ app.get('/events', (req, res) => {
       throw new Error(error);
     } else {
       const eventsToSend = events.events.map((event) => {
+        console.log(event);
         const result = {};
         result.name = event.name;
         result.date = event.startTime;
@@ -137,6 +138,8 @@ app.get('/events', (req, res) => {
         result.address = `${event.place.location.street}, ${event.place.location.city}`;
         result.numPeople = event.stats.attending;
         result.description = event.description;
+        result.image = event.coverPicture;
+        result.url = result.ticketing ? result.ticketing.ticket_uri : `http://www.google.com/search?q=${event.name.replace(' ', '+')}`;
         return result;
       });
       res.send(JSON.stringify(eventsToSend));

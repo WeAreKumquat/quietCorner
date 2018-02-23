@@ -4,16 +4,16 @@ angular.module('app')
       image: '<',
       name: '<',
       description: '<',
-      link: '<'
+      link: '<',
     },
     controller() {
-      //display 'image not found' if image value is null
+      // display 'image not found' if image value is null
       this.checkImage = (imageUrl) => {
-        if(this.image === null){
-          this.image = 'https://elitescreens.com/images/product_album/no_image.png'
+        if (this.image === null) {
+          this.image = 'https://elitescreens.com/images/product_album/no_image.png';
         }
         return this.image;
-      }
+      };
     },
     templateUrl: 'templates/recommend.html',
   });
