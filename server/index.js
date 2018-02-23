@@ -136,7 +136,7 @@ app.get('/events', (req, res) => {
         };
         result.venue = event.place.name;
         result.address = `${event.place.location.street}, ${event.place.location.city}`;
-        result.numPeople = event.stats.attending;
+        result.numPeople = event.stats.attending + (Math.ceil(event.stats.maybe / 2));
         result.description = event.description;
         result.image = event.coverPicture;
         result.url = result.ticketing ? result.ticketing.ticket_uri : `http://www.google.com/search?q=${event.name.replace(' ', '+')}`;
