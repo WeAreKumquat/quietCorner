@@ -5,6 +5,7 @@ angular.module('app')
       selectedTime: '<',
       selectedLocation: '<',
       showTraffic: '<',
+      go: '<',
     },
     controller($scope, $http, $sce) {
       const heatmap = this;
@@ -131,7 +132,7 @@ angular.module('app')
       });
       this.placesLayer.setMap(map);
 
-      $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation', '$ctrl.selectedTime', '$ctrl.showTraffic'], () => {
+      $scope.$watchGroup(['$ctrl.go'], () => {
         this.latt = this.selectedLocation ? this.selectedLocation.latitude : 29.938389717030724;
         this.longi = this.selectedLocation ? this.selectedLocation.longitude : -90.09923441913634;
         this.hour1 = this.selectedTime ? this.selectedTime.slice(0, 2) : `${new Date().getHours()}`;
