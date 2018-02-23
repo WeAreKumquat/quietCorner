@@ -31,6 +31,10 @@ angular.module('app')
       }.bind(appMod);
       this.newMap = function () {
         appMod.go ? appMod.go = false : appMod.go = true;
+        window.document.getElementById('submitbutton').disabled = true;
+        setTimeout(() => {
+          window.document.getElementById('submitbutton').disabled = false;
+        }, 30000)
       }.bind(appMod);
     },
     templateUrl: '/templates/app.html',
