@@ -1,7 +1,7 @@
 angular.module('app')
   .component('app', {
     bindings: {},
-    controller($http) {
+    controller($http, $window, $location, $rootScope, $anchorScroll) {
       const appMod = this;
       // initialize app's selectedDate to be current date
       // create updateAppDate function to pass to heatMapContainer, then to heatMapUI
@@ -35,6 +35,11 @@ angular.module('app')
         setTimeout(() => {
           window.document.getElementById('submitbutton').disabled = false;
         }, 30000)
+      }.bind(appMod);
+
+      this.scrollToForm = function() {
+        $location.hash('banner');
+        $anchorScroll();
       }.bind(appMod);
     },
     templateUrl: '/templates/app.html',
