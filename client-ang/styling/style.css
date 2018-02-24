@@ -1,6 +1,18 @@
+.nav, .pagination, .carousel, .panel-title a { 
+  cursor: pointer; 
+}
+
+a:link {
+  text-decoration: none;
+}
+
 p{
   font-family: Open Sans, sans-serif;
   font-size: 20px;
+}
+
+.carousel-heading {
+  font-family: Bungee Shade;
 }
 
 .banner{
@@ -38,4 +50,16 @@ input[type=text] {
 .selections {
   margin-bottom: 1em;
   font-size: 1.5em;
+}
+
+.rec-row {
+  margin-bottom: 30px;
+}
+
+.rec {
+  height: 100%;
+}
+
+.rec-name {
+  margin-top: 15px;
 }
