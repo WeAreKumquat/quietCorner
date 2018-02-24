@@ -1,12 +1,35 @@
-p{
-  font-family: Open Sans, sans-serif;
-  font-size: 20px;
-}
-
 .banner{
   background-color: #F3DFA2;
   overflow:auto; 
   width:100%; 
+}
+
+h1 {
+  text-align: center;
+  margin-right: 2em;
+}
+
+.intro {
+  border-bottom: 2px solid #F3DFA2;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+p {
+  font-family: courier, "courier new", monospace;
+  font-size: 35px;
+  color: #000000;
+  font-style: oblique;
+  font-weight: bold;
+  font-variant: small-caps;
+  text-align: center;
+  letter-spacing: 2px;
+  line-height: 20px;
+  margin-left: 5em;
+}
+
+#middlep {
+  margin-left: 3em;
 }
 
 #heatmap-col {
@@ -22,20 +45,59 @@ p{
   min-height: 500px;
 }
 
-input[type=checkbox] {
-    width: 35px;
-    height: 35px;
-    -moz-appearance: none;
+#selectdateheading {
+  margin-left: 1em;
 }
 
-input[type=text] {
-    width: 8em;
-    height: 1.5em;
-    font-size: .9em;
-    -moz-appearance: none;
+#selectdatevalue {
+  margin-left: .1em;
+}
+
+input[type=time] {
+  margin-left: 1.75em;
+  -moz-appearance: none;
+}
+
+#timevalue {
+  margin-left: 1.5em;
+}
+
+input[type=checkbox] {
+  margin-left: 3em;
+  width: 2.5em;
+  height: 2em;
+  -moz-appearance: none;
+}
+
+#showtraffic {
+  margin-left: 2em;
+}
+
+#locationinput {
+  height: 1.5em;
+  width: 9.32em;
+  font-size: 16pt;
+}
+
+#locationvalue {
+  margin-left: 10%;
+}
+
+#submitbutton {
+  margin-bottom: 2.5em; 
+}
+
+#time {
+  height: 2em;
+  width: 6em;
 }
 
 .selections {
+  height: 7em;
+  width: 3em;
   margin-bottom: 1em;
-  font-size: 1.5em;
+}
+
+.srow {
+  margin-bottom: .5em;
 }
