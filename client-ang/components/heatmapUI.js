@@ -44,7 +44,7 @@ angular.module('app')
 
       this.getTime = () => {
         heatUiMod.updateAppTime();
-        heatUiMod.time = window.document.getElementById('time').value;
+        heatUiMod.time = window.document.getElementById('time').value || 'now';
       };
 
       this.toggleTraffic = () => {
