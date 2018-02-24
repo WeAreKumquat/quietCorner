@@ -11,6 +11,12 @@ p{
   font-size: 20px;
 }
 
+.carousel-caption {
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: initial;
+}
+
 .carousel-heading {
   font-family: Bungee Shade;
 }
@@ -21,18 +27,13 @@ p{
   width:100%; 
 }
 
-h1 {
-  text-align: center;
-  margin-right: 2em;
-}
-
 .intro {
   border-bottom: 2px solid #F3DFA2;
   margin-bottom: 10px;
   padding-bottom: 10px;
 }
 
-p {
+.intro-p {
   font-family: courier, "courier new", monospace;
   font-size: 35px;
   color: #000000;
