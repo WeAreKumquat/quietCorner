@@ -19,9 +19,7 @@
   ],
   "dependencies": {
     "angular": "^1.6.9",
-    "angular-route": "^1.6.9",
     "angularjs-datepicker": "^2.1.23",
-    "angular-momentjs": "^0.2.2",
-    "angular-bootstrap": "^2.5.0"
+    "angular-momentjs": "^0.2.2"
   }
 }
