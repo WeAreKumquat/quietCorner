@@ -41,6 +41,18 @@ angular.module('app')
         $location.hash('banner');
         $anchorScroll();
       }.bind(appMod);
+
+      this.scrollToTop = function() {
+        $anchorScroll.yOffset = 50;
+        $location.hash('top');
+        $anchorScroll();
+      }.bind(appMod);
+
+      this.scrollToMap = function() {
+        $anchorScroll.yOffset = 50;
+        $location.hash('newmap');
+        $anchorScroll();
+      }.bind(appMod);
     },
     templateUrl: '/templates/app.html',
   });
