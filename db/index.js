@@ -104,7 +104,6 @@ const fetchRecommendations = (date) => {
     order: [
       ['num_people', 'ASC'],
     ],
-    limit: 3,
   });
 };
 
