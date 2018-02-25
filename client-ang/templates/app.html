@@ -71,7 +71,12 @@
 </div>
 
 <!-- banner tag -->
-<banner></banner>
+<nav id="banner" class="navbar sticky-top navbar-dark">
+  <h1 id="banner-heading">Quiet Corner</h1>
+  <button ng-click="$ctrl.scrollToTop()" type="button" class="btn btn-outline-light btn-lg">
+    Back to Top
+  </button>
+</nav>
 
 <!-- heat map tag -->
 <heatmap-container

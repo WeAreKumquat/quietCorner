@@ -21,10 +21,14 @@ p{
   font-family: Bungee Shade;
 }
 
-.banner{
-  background-color: #F3DFA2;
-  overflow:auto; 
-  width:100%; 
+#banner {
+  background: linear-gradient(45deg, rgba(23, 24, 87, 0.746), rgba(58, 7, 82, 0.74));
+  padding-left: 50px;
+}
+
+#banner-heading {
+  font-family: Bungee Shade;
+  color: white;
 }
 
 .intro {
@@ -50,8 +54,12 @@ p{
   margin-left: 3em;
 }
 
+#top {
+  height: 50px;
+}
+
 #heatmap-col {
-  height: 100%;
+  width: 100%
 }
 
 #heatmap-box {
