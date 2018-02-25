@@ -22,7 +22,7 @@ database schema for reference
 }
 */
 
-const songkickFormatForDatabase = (resultArray) => {
+const songkickFormatForDatabase = async (resultArray) => {
   resultArray.forEach((event) => {
     const formattedEvent = {
       address: event.venue.displayName,
@@ -40,26 +40,45 @@ const songkickFormatForDatabase = (resultArray) => {
   });
 };
 
-const getSongkickEvents = () => {
-  const skOptions = {
+const getSongkickEvents = (
+  coords = { lat: 29.9728, lng: -90.059 },
+  date = JSON.stringify(new Date()).split('T')[0].slice(1),
+  callback = () => {},
+) => {
+  db.deleteEvents();
+  const options = {
     method: 'GET',
-    url: 'http://api.songkick.com/api/3.0/events.json',
-    qs: {
-      apikey: `${process.env.SONGKICK_API_KEY}`,
-      location: 'sk:11772',
-      min_date: moment().format('YYYY-MM-DD'),
-      max_date: moment().add(1, 'week').format('YYYY-MM-DD'),
-    },
-    headers: {
-      'Cache-Control': 'no-cache',
-    },
+    url: 'http://api.songkick.com/api/3.0/search/locations.json',
+    qs: { location: `geo:${coords.lat},${coords.lng}`, apikey: `${process.env.SONGKICK_API_KEY}` },
+    headers:
+      {
+        'Cache-Control': 'no-cache',
+      },
   };
-  request(skOptions, (error, response, body) => {
-    if (error) throw new Error(error);
-    const sParsed = JSON.parse(body);
-    if (sParsed.resultsPage.results && sParsed.resultsPage.results.event) {
-      songkickFormatForDatabase(sParsed.resultsPage.results.event); // there's your array
-    }
+  request(options, (error, response, body) => {
+    if (error) { console.log(`Error trying to receive sk location: ${error}`); }
+    const location = JSON.parse(body).resultsPage.results.location[0].metroArea.id;
+    const skOptions = {
+      method: 'GET',
+      url: 'http://api.songkick.com/api/3.0/events.json',
+      qs: {
+        apikey: `${process.env.SONGKICK_API_KEY}`,
+        location: `sk:${location}`,
+        min_date: date,
+        max_date: date,
+      },
+      headers: {
+        'Cache-Control': 'no-cache',
+      },
+    };
+    request(skOptions, (error, response, body) => {
+      if (error) { console.log(`Error trying to receive sk events: ${error}`); }
+      const sParsed = JSON.parse(body);
+      if (sParsed.resultsPage.results && sParsed.resultsPage.results.event) {
+        songkickFormatForDatabase(sParsed.resultsPage.results.event)
+          .then(() => { callback(); });
+      }
+    });
   });
 };
 

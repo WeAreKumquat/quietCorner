@@ -64,13 +64,10 @@ const fetchAll = () =>
 // delete events from table before given date (must be formatted correctly)
 // date format: "yyyy-mm-dd hh:mm:ss"
 // recommend using 00:00:00 for time on date AFTER the day you want everything cleared
-const deleteEvents = date =>
+const deleteEvents = () =>
   Event.destroy({
-    where: {
-      date: {
-        [Op.lt]: date,
-      },
-    },
+    where: {},
+    truncate: true,
   });
 
 // fetch events for a given date
@@ -107,7 +104,6 @@ const fetchRecommendations = (date) => {
     order: [
       ['num_people', 'ASC'],
     ],
-    limit: 3,
   });
 };
 

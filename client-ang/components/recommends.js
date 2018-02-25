@@ -23,21 +23,22 @@ angular.module('app')
       $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation'], () => {
         if (Object.prototype.toString.call(recommendsMod.selectedDate) === '[object Date]') {
           recommendsMod.displayDate = recommendsMod.selectedDate ? $moment(new Date(recommendsMod.selectedDate)).format('dddd, MMMM Do') : 'Today';
+          recommendsMod.lat = recommendsMod.selectedLocation ? recommendsMod.selectedLocation.latitude : 29.9728;
+          recommendsMod.lng = recommendsMod.selectedLocation ? recommendsMod.selectedLocation.longitude : -90.059;
           
-          // TODO: uncomment following lines, update endpoint, and use response data correctly in `then` statement
-          $http.post('/recommend', { date: recommendsMod.selectedDate })
-            // currently expecting response to give back array of objs
-            // expecting objs to have name, description, and image url for each event
-            // need to update recommendsMod.recommendsArr to be the array of objs you get back
-            .then((response) => {
-              this.recommendsArr = response.data.map((recommend) => {
-                return {
-                  image: recommend.img_url,
-                  name: recommend.name,
-                  description: recommend.description,
-                  link: $sce.trustAsUrl(recommend.event_link),
-                };
-              });
+          $http.post('/recommend', { date: recommendsMod.selectedDate, coords: { lat: recommendsMod.lat, lng: recommendsMod.lng } })
+            .then(() => {
+              $http.get('/recommend')
+                .then((response) => {
+                  this.recommendsArr = response.data.map((recommend) => {
+                    return {
+                      image: recommend.img_url,
+                      name: recommend.name,
+                      description: recommend.description,
+                      link: $sce.trustAsUrl(recommend.event_link),
+                    };
+                  });
+                });
             })
             .catch((err) => { console.log(`sorry, got an error trying to get the recommendations: ${err}`); });
 

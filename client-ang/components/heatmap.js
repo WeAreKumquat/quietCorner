@@ -254,7 +254,7 @@ angular.module('app')
               heatmap.eventCoords = response.data.map((event) => {
                 return {
                   location: new google.maps.LatLng(event.coordinates.lat, event.coordinates.lng),
-                  weight: event.numPeople,
+                  weight: event.num_people,
                 };
               });
               heatmap.eventsLayer = new google.maps.visualization.HeatmapLayer({
@@ -268,7 +268,7 @@ angular.module('app')
               });
               heatmap.fbEventMarkers = response.data.map((event) => {
                 const position = new google.maps.LatLng(event.coordinates.lat, event.coordinates.lng);
-                return heatmap.eventMarkerMaker(position, event.numPeople);
+                return heatmap.eventMarkerMaker(position, event.num_people);
               });
               heatmap.fbEventMarkers.forEach((marker, i) => {
                 marker.addListener('click', () => {
