@@ -7,6 +7,7 @@ angular.module('app')
       updateShowTraffic: '<',
       showTraffic: '<',
       newMap: '<',
+      scrollToMap: '<',
     },
     controller() {
       const heatUiMod = this;
@@ -53,6 +54,7 @@ angular.module('app')
 
       this.submit = () => {
         heatUiMod.newMap();
+        heatUiMod.scrollToMap();
       };
     },
     templateUrl: '/templates/heatmapUI.html',
