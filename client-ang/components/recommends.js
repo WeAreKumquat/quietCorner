@@ -20,22 +20,23 @@ angular.module('app')
       this.displayDate = this.selectedDate ? $moment(new Date(this.selectedDate)).format('dddd, MMMM Do') : 'Today';
 
       // make http req whenever selectedDate is updated   
-      $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation'], () => {
+      $scope.$watchGroup(['$ctrl.selectedDate', '$ctrl.selectedLocation'], async () => {
         if (Object.prototype.toString.call(recommendsMod.selectedDate) === '[object Date]') {
           recommendsMod.displayDate = recommendsMod.selectedDate ? $moment(new Date(recommendsMod.selectedDate)).format('dddd, MMMM Do') : 'Today';
           recommendsMod.lat = recommendsMod.selectedLocation ? recommendsMod.selectedLocation.latitude : 29.9728;
           recommendsMod.lng = recommendsMod.selectedLocation ? recommendsMod.selectedLocation.longitude : -90.059;
-          
-          $http.post('/recommend', { date: recommendsMod.selectedDate, coords: { lat: recommendsMod.lat, lng: recommendsMod.lng } })
+          recommendsMod.sk = [];
+          await $http.post('/recommend', { date: recommendsMod.selectedDate, coords: { lat: recommendsMod.lat, lng: recommendsMod.lng } })
             .then(() => {
               $http.get('/recommend')
                 .then((response) => {
-                  this.recommendsArr = response.data.map((recommend) => {
+                  recommendsMod.sk = response.data.map((recommend) => {
                     return {
                       image: recommend.img_url,
                       name: recommend.name,
                       description: recommend.description,
                       link: $sce.trustAsUrl(recommend.event_link),
+                      num_people: recommend.num_people,
                     };
                   });
                 });
@@ -56,9 +57,11 @@ angular.module('app')
                   name: event.name,
                   description: event.description,
                   link: $sce.trustAsUrl(event.url),
+                  num_people: event.num_people,
                 };
               });
-              recommendsMod.recommendsArr = recommendsMod.recommendsArr.concat(events);
+              const sortedRecommends = recommendsMod.sk.concat(events).sort((a, b) => a.num_people - b.num_people);
+              recommendsMod.recommendsArr = sortedRecommends;
             })
             .catch((error) => {
               console.log('sorry, there was error getting fb event data for recommendations', error);
