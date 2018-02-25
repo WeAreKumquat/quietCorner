@@ -57,13 +57,13 @@ angular.module('app')
         });
       };
 
-      this.eventMarkerMaker = (position, num_people) => {
+      this.eventMarkerMaker = (position, numPeople) => {
         let icon;
-        if (num_people < 100) {
+        if (numPeople < 100) {
           icon = heatmap.greenE;
-        } else if (num_people < 300) {
+        } else if (numPeople < 300) {
           icon = heatmap.yellowE;
-        } else if (num_people < 500) {
+        } else if (numPeople < 500) {
           icon = heatmap.orangeE;
         } else {
           icon = heatmap.redE;
