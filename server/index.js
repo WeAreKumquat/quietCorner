@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const seq = require('../db/index');
 const helpers = require('../api-helpers/helpers');
 
-
 // set PORT to correct port to listen to
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -13,7 +12,6 @@ const app = express();
 // get some sweet bodyParser action
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 
 // serve client-ang/index.html on initial page load
 app.use(express.static('client-ang'));
@@ -136,7 +134,7 @@ app.get('/events', (req, res) => {
         };
         result.venue = event.place.name;
         result.address = `${event.place.location.street}, ${event.place.location.city}`;
-        result.numPeople = event.stats.attending + (Math.ceil(event.stats.maybe / 2));
+        result.num_people = event.stats.attending + (Math.ceil(event.stats.maybe / 2));
         result.description = event.description;
         result.image = event.coverPicture;
         result.url = result.ticketing ? result.ticketing.ticket_uri : `http://www.google.com/search?q=${event.name.replace(' ', '+')}`;

@@ -57,13 +57,13 @@ angular.module('app')
         });
       };
 
-      this.eventMarkerMaker = (position, numPeople) => {
+      this.eventMarkerMaker = (position, num_people) => {
         let icon;
-        if (numPeople < 100) {
+        if (num_people < 100) {
           icon = heatmap.greenE;
-        } else if (numPeople < 300) {
+        } else if (num_people < 300) {
           icon = heatmap.yellowE;
-        } else if (numPeople < 500) {
+        } else if (num_people < 500) {
           icon = heatmap.orangeE;
         } else {
           icon = heatmap.redE;
@@ -254,7 +254,7 @@ angular.module('app')
               heatmap.eventCoords = response.data.map((event) => {
                 return {
                   location: new google.maps.LatLng(event.coordinates.lat, event.coordinates.lng),
-                  weight: event.numPeople,
+                  weight: event.num_people,
                 };
               });
               heatmap.eventsLayer = new google.maps.visualization.HeatmapLayer({
@@ -268,7 +268,7 @@ angular.module('app')
               });
               heatmap.fbEventMarkers = response.data.map((event) => {
                 const position = new google.maps.LatLng(event.coordinates.lat, event.coordinates.lng);
-                return heatmap.eventMarkerMaker(position, event.numPeople);
+                return heatmap.eventMarkerMaker(position, event.num_people);
               });
               heatmap.fbEventMarkers.forEach((marker, i) => {
                 marker.addListener('click', () => {
