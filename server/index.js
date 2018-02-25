@@ -28,6 +28,10 @@ app.post('/heatmap', (req, res) => {
   seq.fetchSingleDate(date).then(result => res.send(result));
 });
 
+app.get('/recommend', (req, res) => {
+  const date = req.query.date ? req.query.date : JSON.stringify(new Date()).split('T')[0].slice(1);
+  seq.fetchRecommendations(date).then(result => res.send(result));
+});
 app.post('/recommend', (req, res) => {
   let input = JSON.stringify(new Date(req.body.date));
   console.log(input); // "YYYY-MM-DDT00:00:00.000Z"
@@ -35,8 +39,9 @@ app.post('/recommend', (req, res) => {
   const time = input[1].slice(0, 8);
   const date = `${input[0].slice(1)} ${time}`;
   console.log(date); // YYYY-MM-DD 00:00:00
-
-  seq.fetchRecommendations(date).then(result => res.send(result));
+  helpers.getSongkickEvents(req.body.coords, input[0].slice(1), () => {
+    res.send();
+  });
 });
 
 // // ******************LEAVE FOR MANUAL DB LOAD**************
