@@ -1,101 +1,77 @@
-<div class="container">
+<div id="settings-container" class="container">
   <div  class="row intro">
-    <div class="row">
-      <p class="intro-p">
-        we exist to help you navigate the masses.
-      </p>
-    </div>
-    <div class="row" id="middlep">
-      <p class="intro-p">
-        adjust and submit the settings to
-      </p>
-    </div>
-    <div class="row">
-      <p class="intro-p">
-        checkout the heat-map and recommended events
-      </p>
-    </div>
+    <p id="intro-p">
+      Adjust the settings to your satisfaction to check out
+      the heat map and get some recommended events&mdash;sorted with
+      the least crowded first, of course.
+    </p>
   </div>
   
-  <div class="container">
-    
-    <div class="row">
-      
-      <div class="col selections">
-        <div class="row srow">
-          <div class="row srow" id="selectdateheading">
-            <h3>Select a date!</h3>
+  <div class="row justify-content-center">
+    <div id="form-box">
+      <div class="col">
+        <div id="input-row" class="row justify-content-between">
+          <div class="col col-lg-3 selections">
+            <h3>Date</h3>
+            <datepicker
+              date-format="shortDate"
+              date-set="{{$ctrl.date.toString()}}"
+              date-min-limit="{{$ctrl.minDate.toString()}}"
+              date-max-limit="{{$ctrl.maxDate.toString()}}"
+            >
+              <input
+                class="input-lg"
+                readonly
+                id="date"
+                ng-model="selectedDate"
+                type="text"
+                ng-change="$ctrl.selectDate(selectedDate)"
+                style="height:30px; width:200px; text-align:center; font-size:20px"
+              />
+            </datepicker>
           </div>
-          <datepicker
-            date-format="shortDate"
-            date-set="{{$ctrl.date.toString()}}"
-            date-min-limit="{{$ctrl.minDate.toString()}}"
-            date-max-limit="{{$ctrl.maxDate.toString()}}"
-          >
-            <input
-              class="input-lg"
-              readonly
-              id="date"
-              ng-model="selectedDate"
-              type="text"
-              ng-change="$ctrl.selectDate(selectedDate)"
-              style="height:30px; width:200px; text-align:center; font-size:20px"
-            />
-          </datepicker>
+        
+          <div class="col col-lg-2 selections">
+            <h3>Time</h3>
+            <input class="input input-lg" type="time" id="time" ng-model="selectedTime" ng-change="$ctrl.getTime()" />
+          </div>
+        
+          <div class="col col-lg-3 selections">
+            <h3>Location</h3>
+            <div class="input-group">
+              <input id="locationinput address" class="form-control" type="text" ng-model="address" placeholder="zip or address" />
+              <div class="input-group-append">
+                  <button class="btn btn-primary" type="submit" ng-click="$ctrl.getLocation(address)">
+                    <span class="fa fa-check"></span>
+                  </button>
+              </div>
+            </div>
+          </div>
+        
+          <div class="col col-lg-3 selections">
+            <h3>Show traffic?</h3>
+            <div class="row justify-content-center">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" ng-model="showTraffic" ng-click="$ctrl.toggleTraffic()" />
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="row" id="selectdatevalue">
-          <h4>{{$ctrl.displayDate}}</h4>
-        </div>
-      </div>
-    
-    <div class="col selections">
-      <div class="row srow">
-        <h3>Select a time!</h3>
-      </div>
-      <div class="row srow">
-        <input class="input-lg" type="time" id="time" ng-model="selectedTime" ng-change="$ctrl.getTime()" />
-      </div>
-      <div class="row" id="timevalue">
-        <h4>{{$ctrl.time}}</h4>
-      </div>
-    </div>
-    
-    <div class="col selections">
-      <div class="row srow">
-        <button class="btn btn-secondary btn-sm" type="submit" ng-click="$ctrl.getLocation(address)"><h5>Click to set location!</h5></button>
-      </div>
-      <div class="row srow">
-        <input id="locationinput" type="text" id="address" ng-model="address" placeholder="zip or address" /><br />
-      </div>
-      <div class="row" id="locationvalue">
-        <h4>{{$ctrl.location}}</h4>
-      </div>
-    </div>
-    
-    <div class="col selections">
-      <div class="row srow">
-        <h3>Show traffic?</h3>
-      </div>
-      <div class="row srow">
-        <input type="checkbox" ng-model="showTraffic" ng-click="$ctrl.toggleTraffic()" />
-      </div>
-      <div class="row" id="showtraffic">
-          <h4>{{$ctrl.showTraffic}}</h4>
-      </div>
-    </div>
-    
-  </div>
-  
-    <div class="row">
-      <div class="col">
-      </div>
-      <div class="col">
-        <button type="submit" id="submitbutton" class="btn btn-primary btn-lg" ng-click="$ctrl.submit()">REQUEST NEW MAP</button>
-      </div>
-      <div class="col">
-      </div>
-    </div>
-    
-  </div>
 
+
+        <div id="selection-row" class="row justify-content-between">
+          <div class="col col-lg-3"><h4>{{$ctrl.displayDate}}</h4></div>
+          <div class="col col-lg-2"><h4>{{$ctrl.time}}</h4></div>
+          <div class="col col-lg-3"><h4>{{$ctrl.location}}</h4></div>
+          <div class="col col-lg-3"><h4>{{$ctrl.showTraffic}}</h4></div>
+        </div>
+
+
+        <div id="submit-row" class="row justify-content-center">
+          <div class="col-lg-4">
+            <button type="submit" id="submitbutton" class="btn btn-primary btn-lg btn-block" ng-click="$ctrl.submit()">New Map, Please</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </div>

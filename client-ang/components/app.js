@@ -47,6 +47,12 @@ angular.module('app')
         $location.hash('top');
         $anchorScroll();
       }.bind(appMod);
+
+      this.scrollToMap = function() {
+        $anchorScroll.yOffset = 50;
+        $location.hash('newmap');
+        $anchorScroll();
+      }.bind(appMod);
     },
     templateUrl: '/templates/app.html',
   });

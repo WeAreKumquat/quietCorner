@@ -11,6 +11,7 @@ angular.module('app')
       updateShowTraffic: '<',
       newMap: '<',
       go: '<',
+      scrollToMap: '<',
     },
     controller() {},
     templateUrl: '/templates/heatmapContainer.html',
