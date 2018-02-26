@@ -2,7 +2,7 @@
   <div  class="row intro">
     <p id="intro-p">
       Adjust the settings to your satisfaction to check out
-      the heat map and get some recommended events&mdash;sorted with
+      the heat map <br> and get some recommended events&mdash;sorted with
       the least crowded first, of course.
     </p>
   </div>
@@ -20,7 +20,7 @@
               date-max-limit="{{$ctrl.maxDate.toString()}}"
             >
               <input
-                class="input-lg"
+                class="form-control selection-input"
                 readonly
                 id="date"
                 ng-model="selectedDate"
@@ -33,13 +33,13 @@
         
           <div class="col col-lg-2 selections">
             <h3>Time</h3>
-            <input class="input input-lg" type="time" id="time" ng-model="selectedTime" ng-change="$ctrl.getTime()" />
+            <input class="form-control " type="time" id="time" ng-model="selectedTime" ng-change="$ctrl.getTime()" />
           </div>
         
           <div class="col col-lg-3 selections">
             <h3>Location</h3>
             <div class="input-group">
-              <input id="locationinput address" class="form-control" type="text" ng-model="address" placeholder="zip or address" />
+              <input id="locationinput address" class="form-control selection-input" type="text" ng-model="address" placeholder="zip or address" />
               <div class="input-group-append">
                   <button class="btn btn-primary" type="submit" ng-click="$ctrl.getLocation(address)">
                     <span class="fa fa-check"></span>
@@ -50,20 +50,21 @@
         
           <div class="col col-lg-3 selections">
             <h3>Show traffic?</h3>
-            <div class="row justify-content-center">
+            <div class="row">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" ng-model="showTraffic" ng-click="$ctrl.toggleTraffic()" />
+                <input id="checkbox" class="form-check-input" type="checkbox" ng-model="showTraffic" ng-click="$ctrl.toggleTraffic()" />
               </div>
             </div>
           </div>
         </div>
 
+        <div id="gradient-line" class="row justify-content-center"></div>
 
         <div id="selection-row" class="row justify-content-between">
-          <div class="col col-lg-3"><h4>{{$ctrl.displayDate}}</h4></div>
-          <div class="col col-lg-2"><h4>{{$ctrl.time}}</h4></div>
-          <div class="col col-lg-3"><h4>{{$ctrl.location}}</h4></div>
-          <div class="col col-lg-3"><h4>{{$ctrl.showTraffic}}</h4></div>
+          <div class="col col-lg-3"><h5>{{$ctrl.displayDate}}</h5></div>
+          <div class="col col-lg-2"><h5>{{$ctrl.time}}</h5></div>
+          <div class="col col-lg-3"><h5>{{$ctrl.location}}</h5></div>
+          <div class="col col-lg-3"><h5>{{$ctrl.showTraffic}}</h5></div>
         </div>
 
 

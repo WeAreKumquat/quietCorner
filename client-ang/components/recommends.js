@@ -31,6 +31,7 @@ angular.module('app')
               $http.get('/recommend')
                 .then((response) => {
                   recommendsMod.sk = response.data.map((recommend) => {
+                    console.log(recommend);
                     return {
                       image: recommend.img_url,
                       name: recommend.name,
