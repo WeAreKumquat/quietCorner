@@ -75,32 +75,24 @@ const deleteEvents = () =>
 
 const fetchSingleDate = (date) => {
   // get the date of next day
-  const nextDate = moment(date).add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+  // const nextDate = moment(date).add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
 
   // query db
   return Event.findAll({
     attributes: ['lat', 'long', 'name', 'description', 'address', 'num_people'],
-    where: {
-      date: {
-        [Op.between]: [date, nextDate],
-      },
-    },
+    where: {},
   });
 };
 
 // fetch unpopular events
 const fetchRecommendations = (date) => {
   // find next day
-  const nextDate = moment(date).add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
+  // const nextDate = moment(date).add(1, 'day').format('YYYY-MM-DD HH:mm:ss');
 
   // query db for unpopular event son given day
   return Event.findAll({
     attributes: ['img_url', 'name', 'description', 'event_link', 'num_people'],
-    where: {
-      date: {
-        [Op.between]: [date, nextDate],
-      },
-    },
+    where: {},
     order: [
       ['num_people', 'ASC'],
     ],
