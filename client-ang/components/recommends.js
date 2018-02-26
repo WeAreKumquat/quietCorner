@@ -30,7 +30,7 @@ angular.module('app')
             .then(() => {
               $http.get('/recommend')
                 .then((response) => {
-                  recommendsMod.sk = response.data.map((recommend) => {
+                  recommendsMod.recommendsArr = response.data.map((recommend) => {
                     return {
                       image: recommend.img_url,
                       name: recommend.name,
@@ -39,6 +39,7 @@ angular.module('app')
                       num_people: recommend.num_people,
                     };
                   });
+                  recommendsMod.sk = recommendsMod.recommendsArr;
                 });
             })
             .catch((err) => { console.log(`sorry, got an error trying to get the recommendations: ${err}`); });
