@@ -9,7 +9,7 @@ angular.module('app')
       newMap: '<',
       scrollToMap: '<',
     },
-    controller() {
+    controller($moment) {
       const heatUiMod = this;
 
       // create startDate (current date), minDate, and maxDate for date picker to use:
@@ -21,13 +21,13 @@ angular.module('app')
       this.maxDate.setDate(heatUiMod.dateNum + 7);
       this.location = 'New Orleans';
       this.time = 'now';
-      this.displayDate = this.date.toString().slice(0, 16);
+      this.displayDate = $moment(this.date).format('dddd, MMMM Do');
 
       this.selectDate = (newDate) => {
         const selectedDate = new Date(newDate);
         // update app's selectedDate:
         this.updateAppDate(selectedDate);
-        this.displayDate = selectedDate.toString().slice(0, 16);
+        this.displayDate = $moment(selectedDate).format('dddd, MMMM Do');
       };
 
       this.getLocation = (address) => {
@@ -54,7 +54,6 @@ angular.module('app')
 
       this.submit = () => {
         heatUiMod.newMap();
-        heatUiMod.scrollToMap();
       };
     },
     templateUrl: '/templates/heatmapUI.html',

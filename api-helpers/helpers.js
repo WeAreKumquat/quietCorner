@@ -4,7 +4,7 @@ const db = require('../db/index.js');
 const moment = require('moment');
 const busyHours = require('busy-hours');
 const googleMapsClient = require('@google/maps').createClient({
-  key: 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA',
+  key: process.env.GOOGLE_KEY,
 });
 const EventSearch = require('facebook-events-by-location-core');
 /*
@@ -108,7 +108,7 @@ const getAddressLocation = (loc, callback) => {
     qs:
       {
         address: loc,
-        key: 'AIzaSyAZwSJf0AQnj2WgdYw9DOYICyjO5jryn7s',
+        key: process.env.GOOGLE_KEY,
       },
   };
 
@@ -145,7 +145,7 @@ const getYelpEvents = () => {
 };
 // AIzaSyCr1U83yUEeHy5Dd6jymXzrwNXDafDSDmg
 const getBusyHours = async (place, callback) => {
-  await busyHours(place.place_id, 'AIzaSyDxADf2k82acdqdvj2hiTQi9oLDwylx2BA')
+  await busyHours(place.place_id, process.env.GOOGLE_KEY)
     .then((data) => {
       const placeInfo = {
         name: place.name,

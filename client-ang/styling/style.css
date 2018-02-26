@@ -50,15 +50,15 @@ p{
 }
 
 #intro-p {
-  font-family: courier, "courier new", monospace;
-  font-size: 35px;
+  /* font-family: courier, "courier new", monospace; */
+  /* font-size: 35px; */
   color: #000000;
-  font-style: oblique;
+  /* font-style: oblique;
   font-weight: bold;
-  font-variant: small-caps;
+  /* font-variant: small-caps; */
   text-align: center;
-  letter-spacing: 2px;
-  line-height: 30px;
+  /* letter-spacing: 2px;
+  line-height: 30px;  */
 }
 
 #top {
@@ -81,6 +81,11 @@ p{
 #form-box {
   height: 100%;
 }
+
+.selection-input {
+  max-height: 36px;
+  min-height: 36px;
+}
 /* #selectdateheading {
   margin-left: 1em;
 }
@@ -99,34 +104,20 @@ input[type=time] {
 } */
 
 input[type=checkbox] {
-  /* margin-left: 3em; */
   width: 2.5em;
   height: 2em;
-  /* -moz-appearance: none; */
+  margin-left: 3px;
 }
 
-/* #showtraffic {
-  margin-left: 2em;
+#date {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
 
-#locationinput {
-  height: 1.5em;
-  width: 9.32em;
-  font-size: 16pt;
+#time {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
-
-#locationvalue {
-  margin-left: 10%;
-}
-
-#submitbutton {
-  margin-bottom: 2.5em; 
-} */
-
-/* #time {
-  height: 2em;
-  width: 6em;
-} */
 
 .btn-primary {
   background: linear-gradient(45deg, rgba(23, 24, 87, 0.746), rgba(58, 7, 82, 0.74));
@@ -135,13 +126,26 @@ input[type=checkbox] {
 }
 .selections {
   height: 100%;
-  /* width: 3em;
-  margin-bottom: 1em;
-  font-size: 1.5em; */
+}
+
+#input-row {
+  padding-bottom: 10px; 
+}
+
+#gradient-line {
+  background: linear-gradient(45deg, rgba(23, 24, 87, 0.746), rgba(58, 7, 82, 0.74));
+  min-height: 2px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 #selection-row {
   padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+#recommend-heading-row {
+  padding-top: 30px;
   padding-bottom: 15px;
 }
 

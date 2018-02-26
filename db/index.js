@@ -12,6 +12,7 @@ const HOST = 'localhost';
 const sequelize = new Sequelize('nola_events', 'root', process.env.DBPASS, {
   host: HOST,
   dialect: 'mysql',
+  logging: false,
 });
 
 // map Event to event table:
