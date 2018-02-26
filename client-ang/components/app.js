@@ -18,9 +18,9 @@ angular.module('app')
           appMod.selectedLocation = { latitude: lat, longitude: long };
         } else if (address) {
           $http.get('/address', { params: { address }} )
-          .then((coords) => {
-            console.log(coords.data.lat, coords.data.lng);
+            .then((coords) => {
               appMod.selectedLocation = { latitude: coords.data.lat, longitude: coords.data.lng };
+              console.log(appMod.selectedLocation);
             });
         }
       }.bind(appMod);

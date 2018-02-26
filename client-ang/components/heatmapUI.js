@@ -54,7 +54,6 @@ angular.module('app')
 
       this.submit = () => {
         heatUiMod.newMap();
-        heatUiMod.scrollToMap();
       };
     },
     templateUrl: '/templates/heatmapUI.html',

@@ -155,7 +155,7 @@ angular.module('app')
       $scope.$watchGroup(['$ctrl.go'], () => {
         this.latt = this.selectedLocation ? this.selectedLocation.latitude : 29.938389717030724;
         this.longi = this.selectedLocation ? this.selectedLocation.longitude : -90.09923441913634;
-        this.hour1 = this.selectedTime ? this.selectedTime.slice(0, 2) : `${moment().format('HH')}`;
+        this.hour1 = this.selectedTime ? this.selectedTime.slice(0, 2) : `${$moment().format('HH')}`;
         this.traf = this.showTraffic;
         console.log(this.traf);
         map = new google.maps.Map(document.getElementById('newmap'), {
@@ -164,6 +164,7 @@ angular.module('app')
         });
         if (Object.prototype.toString.call(heatmap.selectedDate) === '[object Date]') {
           const coordinates = `${this.latt}, ${this.longi}`;
+          console.log('coordinates', coordinates);
 
           $http.get('/places', { params: { coordinates } })
             .then((response) => {
